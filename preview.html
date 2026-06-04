@@ -1,0 +1,780 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>魔女能力选择 · 预览</title>
+<style>html,body{margin:0;min-height:100%;background:#04050c;display:flex;align-items:center;justify-content:center;padding:24px}</style>
+</head><body>
+<style>
+.mw-ability-start{
+  --mw-bg:#050613;
+  --mw-bg2:#11102a;
+  --mw-panel:#121123;
+  --mw-line:#8e86c9;
+  --mw-line2:#d9d3ff;
+  --mw-ink:#fbf9ff;
+  --mw-soft:#c9c3ef;
+  --mw-muted:#8f8aa9;
+  --mw-cyan:#9deaff;
+  --mw-gold:#f6e6b6;
+  width:100%;
+  max-width:1600px;
+  min-width:80vw;
+  height:650px;
+  position:relative;
+  display:flex;
+  overflow:hidden;
+  box-sizing:border-box;
+  color:var(--mw-ink);
+  background:
+    radial-gradient(circle at 22% 20%,rgba(164,144,255,.22),transparent 30%),
+    radial-gradient(circle at 76% 70%,rgba(132,229,255,.12),transparent 34%),
+    linear-gradient(135deg,#050613 0%,#0b0a21 48%,#050613 100%);
+  border:1px solid rgba(223,218,255,.24);
+  font-family:"Noto Serif SC","Source Han Serif SC","Microsoft YaHei",serif;
+  isolation:isolate;
+}
+.mw-ability-start *{box-sizing:border-box;}
+.mw-ability-start:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.8px),
+    radial-gradient(circle,rgba(185,174,255,.55) 0 1px,transparent 2px),
+    linear-gradient(90deg,rgba(190,182,255,.08) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(190,182,255,.06) 1px,transparent 1px);
+  background-size:110px 110px,180px 180px,72px 72px,72px 72px;
+  background-position:20px 12px,70px 90px,0 0,0 0;
+  opacity:.45;
+}
+.mw-ability-start:after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  pointer-events:none;
+  border:1px solid rgba(235,232,255,.18);
+  outline:1px solid rgba(128,118,218,.12);
+  outline-offset:-8px;
+}
+.mw-head{
+  position:absolute;
+  left:34px;
+  top:28px;
+  z-index:6;
+  width:min(560px,calc(100% - 84px));
+  pointer-events:none;
+}
+.mw-kicker{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--mw-cyan);
+  font:700 11px/1 "Inter","Arial",sans-serif;
+  letter-spacing:3.5px;
+  text-transform:uppercase;
+  text-shadow:0 0 12px rgba(157,234,255,.65);
+}
+.mw-kicker:before,.mw-kicker:after{
+  content:"";
+  width:32px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--mw-line2),transparent);
+}
+.mw-title{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.mw-sigil{
+  width:50px;
+  height:50px;
+  position:relative;
+  border:1px solid rgba(229,224,255,.72);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.16),rgba(132,117,220,.08) 62%,transparent 63%);
+  box-shadow:0 0 28px rgba(202,195,255,.35),inset 0 0 22px rgba(255,255,255,.12);
+}
+.mw-sigil:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:21px;
+  height:21px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  background:linear-gradient(135deg,#fff,#d9d2ff 55%,#8f82ff);
+  clip-path:polygon(50% 0,62% 36%,100% 50%,62% 64%,50% 100%,38% 64%,0 50%,38% 36%);
+  box-shadow:0 0 18px rgba(255,255,255,.78);
+}
+.mw-cn{
+  margin:0;
+  font-size:34px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:3px;
+  color:#fff;
+  text-shadow:0 0 8px rgba(255,255,255,.78),0 0 26px rgba(172,154,255,.56);
+}
+.mw-subline{
+  margin-top:9px;
+  margin-left:64px;
+  width:260px;
+  height:1px;
+  background:linear-gradient(90deg,var(--mw-line2),rgba(157,234,255,.54),transparent);
+  box-shadow:0 0 16px rgba(218,214,255,.58);
+}
+.mw-stage{
+  flex:1;
+  min-width:0;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:104px 18px 26px 40px;
+}
+.mw-stage:before{
+  content:"";
+  position:absolute;
+  width:min(76vh,620px);
+  aspect-ratio:1;
+  border:1px solid rgba(232,228,255,.15);
+  background:
+    linear-gradient(135deg,transparent 0 42%,rgba(255,255,255,.12) 43%,transparent 45%),
+    linear-gradient(45deg,transparent 0 47%,rgba(157,234,255,.1) 48%,transparent 50%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 42px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 42px);
+  clip-path:polygon(50% 0,93% 18%,100% 50%,93% 82%,50% 100%,7% 82%,0 50%,7% 18%);
+  opacity:.38;
+}
+.mw-stage:after{
+  content:"";
+  position:absolute;
+  width:min(62vh,520px);
+  height:min(38vh,310px);
+  border:1px solid rgba(157,234,255,.14);
+  transform:translateY(22px) rotate(-16deg);
+  background:
+    linear-gradient(90deg,transparent,rgba(157,234,255,.16),transparent),
+    linear-gradient(0deg,transparent,rgba(217,211,255,.08),transparent);
+  clip-path:polygon(8% 8%,100% 0,92% 92%,0 100%);
+  box-shadow:0 0 34px rgba(157,234,255,.12);
+  opacity:.42;
+}
+.mw-canvas{
+  width:min(64vh,590px);
+  height:min(64vh,590px);
+  max-width:100%;
+  max-height:100%;
+  position:relative;
+  z-index:3;
+  cursor:grab;
+  touch-action:none;
+}
+.mw-canvas:active{cursor:grabbing;}
+.mw-ring{
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:50%;
+  border:1px solid rgba(231,227,255,.2);
+  border-radius:50%;
+  pointer-events:none;
+  display:none;
+}
+.mw-ring-a{
+  width:min(72vh,650px);
+  height:min(72vh,650px);
+  transform:translate(-50%,-50%) rotateX(66deg) rotateZ(20deg);
+  box-shadow:0 0 38px rgba(194,184,255,.16);
+}
+.mw-ring-b{
+  width:min(54vh,490px);
+  height:min(54vh,490px);
+  transform:translate(-50%,-50%) rotateX(74deg) rotateZ(-35deg);
+  border-color:rgba(157,234,255,.2);
+}
+.mw-ring-c{
+  width:min(38vh,360px);
+  height:min(38vh,360px);
+  transform:translate(-50%,-50%) rotateX(54deg) rotateZ(70deg);
+  border-style:dashed;
+  border-color:rgba(246,230,182,.26);
+}
+.mw-panel{
+  width:440px;
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  justify-content:stretch;
+  height:100%;
+  padding:14px 24px 14px 10px;
+  min-height:0;
+}
+.mw-panel-inner{
+  position:relative;
+  padding:18px 21px 16px;
+  height:100%;
+  max-height:100%;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  border:1px solid rgba(222,216,255,.34);
+  background:linear-gradient(145deg,rgba(16,14,34,.9),rgba(8,8,20,.82));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 0 36px rgba(88,74,170,.24);
+}
+.mw-panel-inner:before{
+  content:"";
+  position:absolute;
+  left:-1px;
+  top:18px;
+  width:3px;
+  height:96px;
+  background:linear-gradient(var(--mw-line2),var(--mw-cyan),transparent);
+  box-shadow:0 0 14px rgba(218,213,255,.65);
+}
+.mw-panel-inner:after{
+  content:"";
+  position:absolute;
+  right:16px;
+  top:16px;
+  width:72px;
+  height:72px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 35deg,rgba(255,255,255,.32) 38deg 42deg,transparent 45deg 180deg,rgba(157,234,255,.22) 184deg 188deg,transparent 192deg 360deg);
+  opacity:.62;
+}
+.mw-code{
+  display:flex;
+  align-items:center;
+  min-height:13px;
+  color:var(--mw-cyan);
+  font:800 11px/1 "Inter","Arial",sans-serif;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  letter-spacing:3.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.mw-name{
+  margin:0;
+  max-width:330px;
+  min-height:34px;
+  color:#fff;
+  font-size:34px;
+  line-height:1.08;
+  letter-spacing:3px;
+  text-shadow:0 0 9px rgba(255,255,255,.72),0 0 28px rgba(174,160,255,.48);
+}
+.mw-en{
+  margin-top:5px;
+  min-height:16px;
+  color:var(--mw-soft);
+  font:500 12px/1.55 "Inter","Arial",sans-serif;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.mw-divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:10px 0 8px;
+}
+.mw-divider:before,.mw-divider:after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,transparent,rgba(221,216,255,.38),transparent);
+}
+.mw-mini-star{
+  width:15px;
+  height:15px;
+  background:linear-gradient(135deg,#fff,#d9d3ff 60%,#8f82ff);
+  clip-path:polygon(50% 0,60% 36%,100% 50%,60% 64%,50% 100%,40% 64%,0 50%,40% 36%);
+  box-shadow:0 0 18px rgba(255,255,255,.72);
+}
+.mw-desc{
+  min-height:68px;
+  color:#eeeaff;
+  font-size:14px;
+  line-height:1.62;
+  letter-spacing:.6px;
+}
+.mw-quote{
+  margin:0 0 10px;
+  padding-left:14px;
+  border-left:2px solid rgba(221,214,255,.8);
+  color:#fff;
+  font-weight:700;
+  text-shadow:0 0 14px rgba(215,208,255,.34);
+}
+.mw-detail{
+  margin:0;
+  color:var(--mw-soft);
+}
+.mw-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  min-height:26px;
+  margin:10px 0 10px;
+}
+.mw-tags span{
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:2px 9px;
+  color:#f7f4ff;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.13),rgba(157,234,255,.06)),
+    rgba(8,8,22,.48);
+  border:1px solid rgba(221,216,255,.34);
+  font:800 12px/1 "Inter","Microsoft YaHei",sans-serif;
+  letter-spacing:.8px;
+  clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%);
+  box-shadow:inset 0 0 12px rgba(255,255,255,.05);
+}
+.mw-switch{
+  position:relative;
+  display:grid;
+  grid-template-columns:46px minmax(0,1fr) 46px;
+  align-items:center;
+  gap:12px;
+  min-height:50px;
+  padding:5px 9px;
+  border:1px solid rgba(222,216,255,.28);
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),
+    repeating-linear-gradient(90deg,transparent 0 18px,rgba(224,219,255,.08) 19px,transparent 20px);
+  margin-top:auto;
+  margin-bottom:8px;
+}
+.mw-nav,.mw-confirm{
+  appearance:none;
+  border:0;
+  color:var(--mw-ink);
+  cursor:pointer;
+  font-family:inherit;
+}
+.mw-nav{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.18),rgba(130,118,226,.14)),
+    #09091a;
+  border:1px solid rgba(225,220,255,.52);
+  border-radius:50%;
+  font:700 28px/1 "Inter","Arial",sans-serif;
+  line-height:1;
+  padding:0 0 4px;
+  box-shadow:inset 0 0 16px rgba(255,255,255,.08),0 0 20px rgba(164,148,255,.18);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.mw-nav:hover{
+  transform:translateY(-1px);
+  border-color:#fff;
+  box-shadow:inset 0 0 16px rgba(255,255,255,.12),0 0 28px rgba(205,198,255,.34);
+}
+.mw-page{
+  min-width:0;
+  height:38px;
+  display:grid;
+  grid-template-columns:48px 14px 48px;
+  align-items:center;
+  justify-content:center;
+  justify-items:center;
+  column-gap:6px;
+  color:var(--mw-soft);
+  font:900 18px/1 "Inter","Arial",sans-serif;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  letter-spacing:1px;
+}
+.mw-page strong{
+  width:48px;
+  height:30px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1px;
+  border:1px solid rgba(231,227,255,.42);
+  border-radius:999px;
+  background:rgba(6,7,22,.54);
+  text-shadow:0 0 14px rgba(255,255,255,.56);
+}
+.mw-page i{
+  width:16px;
+  height:30px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(221,216,255,.68);
+  font-style:normal;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:0;
+}
+.mw-page span{
+  width:48px;
+  height:30px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#fff;
+  text-shadow:0 0 14px rgba(255,255,255,.56);
+}
+.mw-steps{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(13,1fr);
+  align-items:center;
+  justify-items:center;
+  gap:7px;
+  min-height:24px;
+  padding:0 2px 7px;
+  margin-bottom:6px;
+  border:0;
+}
+.mw-steps:before{
+  display:none;
+}
+.mw-step{
+  position:relative;
+  width:18px;
+  height:18px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  clip-path:none;
+  cursor:pointer;
+  transition:transform .25s ease;
+}
+.mw-step:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:12px;
+  height:12px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  border-radius:0;
+  background:rgba(10,10,27,.25);
+  border:1px dashed rgba(232,228,255,.56);
+  box-shadow:inset 0 0 8px rgba(255,255,255,.05);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+.mw-step:after{
+  display:none;
+}
+.mw-step.active{
+  background:transparent;
+  box-shadow:none;
+  transform:translateY(-1px);
+}
+.mw-step.active:before{
+  width:14px;
+  height:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(202,196,255,.78) 48%,rgba(122,232,255,.72));
+  border:1px solid rgba(255,255,255,.98);
+  box-shadow:0 0 8px rgba(255,255,255,.92),0 0 18px rgba(157,234,255,.76),0 0 30px rgba(169,157,255,.5);
+}
+.mw-step.active:after{
+  display:none;
+}
+.mw-confirm{
+  width:100%;
+  min-height:38px;
+  padding:8px 16px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.95),rgba(218,214,255,.92) 55%,rgba(151,138,255,.86)),
+    #fff;
+  color:#070713;
+  border:1px solid rgba(255,255,255,.9);
+  clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%);
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:4px;
+  text-shadow:0 1px 0 rgba(255,255,255,.75);
+  box-shadow:0 0 24px rgba(217,211,255,.3),inset 0 0 18px rgba(255,255,255,.32);
+  transition:transform .25s ease,box-shadow .25s ease;
+  flex:0 0 auto;
+}
+.mw-confirm:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 34px rgba(217,211,255,.5),inset 0 0 18px rgba(255,255,255,.36);
+}
+.mw-confirm:before,.mw-confirm:after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:34px;
+  height:1px;
+  background:#080817;
+  opacity:.4;
+}
+.mw-confirm:before{left:18px;}
+.mw-confirm:after{right:18px;}
+.mw-fade{
+  opacity:1;
+  transform:translateY(0);
+  transition:opacity .24s ease,transform .24s ease;
+}
+.mw-fade.is-out{
+  opacity:0;
+  transform:translateY(8px);
+}
+@keyframes mw-orbit{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+@media (max-width:860px){
+  .mw-ability-start{
+    min-width:0;
+    height:auto;
+    min-height:720px;
+    flex-direction:column;
+  }
+  .mw-head{
+    left:18px;
+    top:20px;
+    width:calc(100% - 36px);
+  }
+  .mw-kicker{
+    font-size:10px;
+    letter-spacing:2.5px;
+  }
+  .mw-kicker:before,.mw-kicker:after{width:24px;}
+  .mw-sigil{
+    width:46px;
+    height:46px;
+  }
+  .mw-cn{
+    font-size:30px;
+    letter-spacing:2px;
+  }
+  .mw-subline{
+    margin-left:62px;
+    width:220px;
+  }
+  .mw-stage{
+    min-height:340px;
+    padding:96px 14px 4px;
+  }
+  .mw-canvas{
+    width:min(84vw,360px);
+    height:min(84vw,360px);
+  }
+  .mw-panel{
+    width:100%;
+    padding:0 14px 18px;
+  }
+  .mw-panel-inner{
+    padding:18px 16px 16px;
+  }
+  .mw-name{
+    font-size:30px;
+    max-width:280px;
+  }
+  .mw-desc{
+    font-size:13px;
+    line-height:1.6;
+    min-height:78px;
+  }
+  .mw-switch{
+    gap:8px;
+  }
+  .mw-nav{
+    width:38px;
+    height:38px;
+  }
+}
+</style>
+
+
+
+
+
+<div class="mw-ability-start" onclick="event.stopPropagation()">
+  <div class="mw-head">
+    <div class="mw-kicker">Magical Contract / Opening Choice</div>
+    <div class="mw-title">
+      <div class="mw-sigil"></div>
+      <h2 class="mw-cn">魔女能力选择</h2>
+    </div>
+    <div class="mw-subline"></div>
+  </div>
+
+  <div class="mw-stage">
+    <div class="mw-ring mw-ring-a"></div>
+    <div class="mw-ring mw-ring-b"></div>
+    <div class="mw-ring mw-ring-c"></div>
+    <canvas class="mw-canvas" width="720" height="720"></canvas>
+  </div>
+
+  <div class="mw-panel">
+    <div class="mw-panel-inner">
+      <div class="mw-code mw-fade">Archive 01 / Witch Ability</div>
+      <h3 class="mw-name mw-fade">星门启录</h3>
+      <div class="mw-en mw-fade">Astral Keygate</div>
+      <div class="mw-divider"><i class="mw-mini-star"></i></div>
+      <div class="mw-desc mw-fade">
+        <p class="mw-quote">门不是入口，是被星光承认的许可。</p>
+        <p class="mw-detail">在短时间内开启一枚只允许 user 通过的星门，可越过封锁、距离或一次失败判定。</p>
+      </div>
+      <div class="mw-tags mw-fade"></div>
+      <div class="mw-switch">
+        <button class="mw-nav mw-prev" type="button" aria-label="上一项">‹</button>
+        <div class="mw-page"><strong>01</strong><i>/</i><span>13</span></div>
+        <button class="mw-nav mw-next" type="button" aria-label="下一项">›</button>
+      </div>
+      <div class="mw-steps"></div>
+      <button class="mw-confirm" type="button">确定选择</button>
+    </div>
+  </div>
+  
+  
+  <img src="x" style="display:none;" onerror="(function(img){
+var root=img.closest?img.closest('.mw-ability-start'):img.parentElement;
+if(!root)root=img.parentElement;
+if(!root||root.getAttribute('data-mw-ready')==='1')return;
+root.setAttribute('data-mw-ready','1');
+var cv=root.querySelector('.mw-canvas'),ctx=cv&&cv.getContext('2d');
+if(!ctx)return;
+var code=root.querySelector('.mw-code'),name=root.querySelector('.mw-name'),en=root.querySelector('.mw-en'),desc=root.querySelector('.mw-desc'),tags=root.querySelector('.mw-tags'),page=root.querySelector('.mw-page'),steps=root.querySelector('.mw-steps'),confirmBtn=root.querySelector('.mw-confirm');
+var C={w:'#fffdf8',s:'#e8e5ff',l:'#c9c1ff',v:'#8f82ff',c:'#9deaff',g:'#f6e6b6',d:'#70699c'},Q=2.2;
+
+/* 3 个能力模板。最后一个字段是造型 key，对应一个正面线描图标。 */
+var A=[
+ ['星门启录','Astral Keygate','门不是入口，是被星光承认的许可。','在短时间内开启一枚只允许 user 通过的星门，可越过封锁、距离或一次失败判定。','指定一个可视或已知坐标，开启短距星门并重置一次进入条件。','开场时银白钥孔在空中展开，十三枚星钉依次点亮通行许可。','星门/钥孔/通行','key'],
+ ['晶钟裁时','Crystal Chronometer','时间不是河流，是可以被裁开的晶面。','召唤晶钟结构，将一个动作拆成预备、发生、余波三个切面。','选择其中一个切面延迟或提前，使行动节奏被 user 重新排序。','开场时六角晶钟悬在胸前，指针划过透明的时间切片。','晶钟/裁时/节奏','clock'],
+ ['假面授冠','Crowned Mask','戴上王冠之前，先选择要扮演的奇迹。','召唤三枚假面，让 user 临时获得一种演出身份：守护者、欺诈者或处刑者。','选择一种身份获得对应强化，但身份会限制本回合的行动风格。','开场时白银假面围绕王冠旋转，最终有一枚落到 user 面前。','假面/王冠/身份','crown']
+];
+
+function pad(n){return(n<10?'0':'')+n}
+/* 确定性 hash 噪声：同样的 (i,s) 永远得到同一值，避免抖动闪烁 */
+function R(i,s){var v=Math.sin(i*12.9898+s*78.233)*43758.5453;return v-Math.floor(v)}
+
+/* ===== 正面线描图元：全部往目标数组 T 里推点，z 只给一点微厚度 ===== */
+var TH=7;
+function pt(T,x,y,c,s,z){T.push({x:x,y:y,z:(z==null?(R(T.length,3)-.5)*TH:z),c:c||C.s,s:s||1})}
+function seg(T,x1,y1,x2,y2,n,w,c,s,sd){n=Math.max(2,n*Q|0);for(var i=0;i<n;i++){var t=i/(n-1);pt(T,x1+(x2-x1)*t+(R(i,sd)-.5)*(w||0),y1+(y2-y1)*t+(R(i,sd+1)-.5)*(w||0),c,s)}}
+function arc(T,cx,cy,rx,ry,a,b,n,w,c,s,sd){n=Math.max(2,n*Q|0);for(var i=0;i<n;i++){var t=a+(b-a)*i/(n-1),o=(R(i,sd)-.5)*(w||0);pt(T,cx+Math.cos(t)*(rx+o),cy+Math.sin(t)*(ry+o),c,s)}}
+function ring(T,cx,cy,r,n,w,c,s,sd){arc(T,cx,cy,r,r,0,6.283,n,w,c,s,sd)}
+function poly(T,ps,n,w,c,s){for(var i=0;i<ps.length;i++){var p=ps[i],q=ps[(i+1)%ps.length];seg(T,p[0],p[1],q[0],q[1],n,w,c,s,30+i*7)}}
+function star(T,x,y,r,c){poly(T,[[x,y-r],[x+r*.5,y-r*.1],[x+r*.22,y+r*.34],[x-r*.22,y+r*.34],[x-r*.5,y-r*.1]],14,1.3,c,1);pt(T,x,y,C.w,2)}
+function dot(T,x,y,r,c){ring(T,x,y,r,28,1.2,c,1,77);pt(T,x,y,C.w,1.6)}
+
+/* ===== 造型库：每个能力一个正面可识别图标 ===== */
+function bKey(T){           /* 星门启录 → 钥匙 / 钥孔 */
+ ring(T,0,-90,48,150,2,C.g,1.1,10); ring(T,0,-90,30,90,1.6,C.l,.7,20);
+ star(T,0,-90,16,C.w);
+ seg(T,0,-42,0,118,150,2,C.w,1.1,40);
+ seg(T,0,92,36,92,40,1.4,C.c,1,50); seg(T,36,92,36,72,26,1.4,C.c,1,55);
+ seg(T,0,112,30,112,34,1.4,C.c,1,60); seg(T,30,112,30,94,24,1.4,C.c,1,65);
+}
+function bClock(T){         /* 晶钟裁时 → 六角晶钟 + 指针 */
+ var hx=[],k;for(k=0;k<6;k++){var a=-1.5708+k*1.0472;hx.push([Math.cos(a)*128,Math.sin(a)*128])}
+ poly(T,hx,52,2,C.l,.7);
+ ring(T,0,0,106,170,2,C.c,1,80);
+ for(var i=0;i<12;i++){var t=i*0.5236,r2=(i%3===0)?76:88;seg(T,Math.cos(t)*96,Math.sin(t)*96,Math.cos(t)*r2,Math.sin(t)*r2,12,1,C.s,.9,90+i)}
+ seg(T,0,0,0,-58,58,1.6,C.w,1.1,140);
+ seg(T,0,0,66,28,62,1.6,C.g,1.1,150);
+ dot(T,0,0,9,C.w);
+}
+function bCrown(T){         /* 假面授冠 → 王冠 */
+ var pk=[[-122,-84],[-72,8],[-36,-48],[0,-94],[36,-48],[72,8],[122,-84]],i;
+ for(i=0;i<pk.length-1;i++)seg(T,pk[i][0],pk[i][1],pk[i+1][0],pk[i+1][1],46,2,C.g,1.1,200+i);
+ seg(T,-122,-84,-122,70,40,1.6,C.l,.9,220);
+ seg(T,122,-84,122,70,40,1.6,C.l,.9,225);
+ seg(T,-122,70,122,70,120,2,C.w,1.1,230);
+ seg(T,-122,40,122,40,120,1.4,C.c,.8,235);
+ dot(T,-122,-84,10,C.c); dot(T,0,-94,13,C.w); dot(T,122,-84,10,C.c);
+ dot(T,-36,-48,8,C.g); dot(T,36,-48,8,C.g);
+ for(var j=-2;j<=2;j++)star(T,j*44,55,9,j===0?C.g:C.s);
+}
+var SHAPES={key:bKey,clock:bClock,crown:bCrown};
+
+/* 背景星尘：跨能力固定不变，只让前景图标形变 */
+var BG=[];(function(){for(var i=0;i<260;i++){var a=R(i,900)*6.283,r=152+R(i,901)*150;BG.push({x:Math.cos(a)*r,y:(R(i,902)-.5)*330,z:(R(i,903)-.5)*180,c:i%5?C.d:C.c,s:.5})}})();
+
+/* 把任意点数归一到固定 ICON，方便每帧一一对应做补间 */
+var ICON=820;
+function build(key){var T=[];(SHAPES[key]||bKey)(T);
+ if(T.length>ICON){var out=[],step=T.length/ICON,i;for(i=0;i<ICON;i++)out.push(T[Math.floor(i*step)]);T=out;}
+ else{var n0=T.length||1,i=0;while(T.length<ICON){var b=T[i%n0];T.push({x:b.x+(R(T.length,5)-.5)*4,y:b.y+(R(T.length,6)-.5)*4,z:(R(T.length,7)-.5)*TH,c:b.c,s:b.s});i++}}
+ return T;
+}
+
+/* ===== 粒子池：前 ICON 个做图标(会形变)，其后是静态背景星尘 ===== */
+var P=[],i;
+for(i=0;i<ICON;i++)P.push({x:0,y:0,z:0,sx:0,sy:0,sz:0,tx:0,ty:0,tz:0,c:C.s,s:1});
+for(i=0;i<BG.length;i++){var b=BG[i];P.push({x:b.x,y:b.y,z:b.z,sx:b.x,sy:b.y,sz:b.z,tx:b.x,ty:b.y,tz:b.z,c:b.c,s:b.s,bg:1})}
+
+var idx=0,mStart=-1e9,mDur=640;
+function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+function setTarget(key){var T=build(key),i;for(i=0;i<ICON;i++){var p=P[i],t=T[i];p.sx=p.x;p.sy=p.y;p.sz=p.z;p.tx=t.x;p.ty=t.y;p.tz=t.z;p.c=t.c;p.s=t.s}mStart=performance.now()}
+
+/* ===== 文案渲染 ===== */
+function render(){var m=A[idx],n=pad(idx+1);
+ if(code)code.textContent='Archive '+n+' / Witch Ability';
+ if(name)name.textContent=m[0];
+ if(en)en.textContent=m[1];
+ if(desc){var q=desc.querySelector('.mw-quote'),d=desc.querySelector('.mw-detail');if(q)q.textContent=m[2];if(d)d.textContent=m[3]}
+ if(page)page.innerHTML='<strong>'+n+'</strong><i>/</i><span>'+pad(A.length)+'</span>';
+ if(tags){tags.innerHTML='';var ts=m[6].split('/'),i;for(i=0;i<ts.length;i++){var spn=document.createElement('span');spn.textContent=ts[i];tags.appendChild(spn)}}
+ if(steps){steps.innerHTML='';for(i=0;i<A.length;i++){var st=document.createElement('i');st.className='mw-step'+(i===idx?' active':'');st.setAttribute('data-step',i);steps.appendChild(st)}}}
+function go(n){idx=(n+A.length)%A.length;setTarget(A[idx][7]);render()}
+
+/* ===== SillyTavern 输入框对接 ===== */
+function choice(){var m=A[idx];return '【开场魔女能力选择】'+String.fromCharCode(10)+'我选择「'+m[0]+' / '+m[1]+'」作为 user 的魔女能力。'+String.fromCharCode(10)+'能力定义：'+m[4]+String.fromCharCode(10)+'开场演出：'+m[5]+String.fromCharCode(10)+'关键词：'+m[6].replace(/\//g,'、')}
+function inp(doc){return doc.querySelector('.chat .chat-bottom .uni-textarea .chat-input-scope textarea')||doc.querySelector('.chatMsgTextarea textarea')||doc.querySelector('.chat .chat-bottom textarea')||doc.querySelector('.chat-input-scope textarea')||doc.querySelector('.uni-textarea textarea')||doc.querySelector('textarea:not(.ps-custom-input):not(#hu-custom-input)')||doc.querySelector('[contenteditable=true]')||doc.querySelector('textarea')||doc.querySelector('input[type=text]')||doc.querySelector('input:not([type])')}
+function send(){var el=inp(document),txt=choice();try{if(!el&&window.top&&window.top.document)el=inp(window.top.document)}catch(e){}if(!el){if(confirmBtn)confirmBtn.textContent='未找到输入框';return}if(el.isContentEditable){var ov=el.textContent||'';el.textContent=ov&&ov.replace(/\s/g,'')?ov+String.fromCharCode(10)+String.fromCharCode(10)+txt:txt}else{ov=el.value||'';el.value=ov&&ov.replace(/\s/g,'')?ov+String.fromCharCode(10)+String.fromCharCode(10)+txt:txt}try{el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));el.focus()}catch(e2){}if(confirmBtn){confirmBtn.textContent='已追加';setTimeout(function(){confirmBtn.textContent='确定选择'},1100)}}
+
+function cls(n,c){while(n&&n!==root){if(n.classList&&n.classList.contains(c))return n;n=n.parentNode}return n&&n.classList&&n.classList.contains(c)?n:null}
+root.addEventListener('click',function(e){var st=cls(e.target,'mw-step');if(st){e.stopPropagation();go(parseInt(st.getAttribute('data-step'),10)||0);return}if(cls(e.target,'mw-prev')){e.stopPropagation();go(idx-1);return}if(cls(e.target,'mw-next')){e.stopPropagation();go(idx+1);return}if(cls(e.target,'mw-confirm')){e.stopPropagation();send()}},true);
+
+/* ===== 渲染：正面朝向 + 轻微摇摆 + 上下浮动 + 形变补间 ===== */
+var rx=0,ry=0,drag=0,lx=0,ly=0,dvx=0,dvy=0;
+function size(){var r=cv.getBoundingClientRect(),d=Math.max(1,Math.min(2,window.devicePixelRatio||1));cv.width=Math.max(260,Math.floor(r.width*d));cv.height=Math.max(260,Math.floor(r.height*d))}
+function draw(){requestAnimationFrame(draw);
+ var w=cv.width,h=cv.height,d=Math.max(1,Math.min(2,window.devicePixelRatio||1)),now=performance.now();
+ var mp=mStart<-1e8?1:Math.min(1,(now-mStart)/mDur),e=ease(mp),i;
+ for(i=0;i<ICON;i++){var p=P[i];p.x=p.sx+(p.tx-p.sx)*e;p.y=p.sy+(p.ty-p.sy)*e;p.z=p.sz+(p.tz-p.sz)*e}
+ var t=now*.001;if(!drag){rx+=dvx;ry+=dvy;dvx*=.9;dvy*=.9;rx*=.95;ry*=.95}
+ var ay=ry+Math.sin(t*.6)*.14,ax=rx+Math.cos(t*.8)*.06,bob=Math.sin(t*.9)*8;
+ var cy=Math.cos(ay),sy=Math.sin(ay),cx=Math.cos(ax),sx=Math.sin(ax),sc=Math.min(w,h)/430;
+ ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='lighter';
+ for(i=0;i<P.length;i++){var q=P[i],x1=q.x*cy-q.z*sy,z1=q.x*sy+q.z*cy,y1=q.y*cx-z1*sx,z2=q.y*sx+z1*cx,per=560/(560+z2),X=w/2+x1*per*sc,Y=h/2+(y1+bob)*per*sc,ps=Math.max(1,(q.s||1)*per*d);
+  ctx.globalAlpha=q.bg?Math.max(.1,Math.min(.5,(z2+260)/620)):Math.max(.32,Math.min(1,(z2+260)/520));
+  ctx.fillStyle=q.c;ctx.fillRect(X,Y,ps,ps)}
+ ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1}
+
+function down(e){drag=1;var p=e.touches?e.touches[0]:e;lx=p.clientX;ly=p.clientY;if(e.preventDefault)e.preventDefault()}
+function move(e){if(!drag)return;var p=e.touches?e.touches[0]:e;dvy=(p.clientX-lx)*.004;dvx=(p.clientY-ly)*.004;ry+=dvy;rx+=dvx;rx=Math.max(-.55,Math.min(.55,rx));ry=Math.max(-.7,Math.min(.7,ry));lx=p.clientX;ly=p.clientY}
+function up(){drag=0}
+cv.addEventListener('mousedown',down);cv.addEventListener('touchstart',down);window.addEventListener('mousemove',move);window.addEventListener('touchmove',move);window.addEventListener('mouseup',up);window.addEventListener('touchend',up);window.addEventListener('resize',size);
+size();go(0);
+/* 开场首帧不要补间，直接落到图标 */
+for(i=0;i<ICON;i++){P[i].x=P[i].tx;P[i].y=P[i].ty;P[i].z=P[i].tz}
+draw();
+try{img.parentNode.removeChild(img)}catch(e){}
+})(this);
+"></div>
+
+</body></html>
