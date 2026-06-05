@@ -1,0 +1,43 @@
+﻿[角色图鉴CSS]
+
+
+<div class="custom-gallery-btn" onclick="const overlay=document.getElementById('cg-overlay-[图鉴ID]');const modal=document.getElementById('cg-modal-[图鉴ID]');overlay.style.display='flex';document.body.appendChild(overlay);setTimeout(()=>{overlay.style.opacity='1';modal.style.transform='translateX(0%)';},10);">
+    图鉴目录
+</div>
+
+<div id="cg-overlay-[图鉴ID]" class="custom-gallery-overlay" onclick="const modal=document.getElementById('cg-modal-[图鉴ID]');const overlay=document.getElementById('cg-overlay-[图鉴ID]');modal.style.transform='translateX(-100%)';overlay.style.opacity='0';setTimeout(()=>overlay.style.display='none',320);">
+    <div id="cg-modal-[图鉴ID]" class="custom-gallery-modal" onclick="event.stopPropagation();">
+        <div class="custom-gallery-header">
+            <div class="custom-gallery-emblem">✦</div>
+            <div class="custom-gallery-heading">
+                <span>Character Archive / Event Log</span>
+                <h2 class="custom-gallery-title">镜花角色图鉴</h2>
+            </div>
+            <button class="custom-gallery-close" onclick="const modal=document.getElementById('cg-modal-[图鉴ID]');const overlay=document.getElementById('cg-overlay-[图鉴ID]');modal.style.transform='translateX(-100%)';overlay.style.opacity='0';setTimeout(()=>overlay.style.display='none',320);"><span>收起</span><b>‹</b></button>
+        </div>
+
+        <div class="custom-gallery-tabs">
+            <div class="custom-gallery-tab custom-gallery-tab-active" onclick="const m=document.getElementById('cg-modal-[图鉴ID]');m.querySelectorAll('.custom-gallery-content').forEach(e=>e.style.display='none');m.querySelectorAll('.custom-gallery-tab').forEach(e=>e.classList.remove('custom-gallery-tab-active'));document.getElementById('cg-content1-[图鉴ID]').style.display='block';this.classList.add('custom-gallery-tab-active');">
+                <span>Archive I</span><b>魔法少女</b>
+            </div>
+            <div class="custom-gallery-tab" onclick="const m=document.getElementById('cg-modal-[图鉴ID]');m.querySelectorAll('.custom-gallery-content').forEach(e=>e.style.display='none');m.querySelectorAll('.custom-gallery-tab').forEach(e=>e.classList.remove('custom-gallery-tab-active'));document.getElementById('cg-content2-[图鉴ID]').style.display='block';this.classList.add('custom-gallery-tab-active');">
+                <span>Archive II</span><b>魔女</b>
+            </div>
+            <div class="custom-gallery-tab" onclick="const m=document.getElementById('cg-modal-[图鉴ID]');m.querySelectorAll('.custom-gallery-content').forEach(e=>e.style.display='none');m.querySelectorAll('.custom-gallery-tab').forEach(e=>e.classList.remove('custom-gallery-tab-active'));document.getElementById('cg-content3-[图鉴ID]').style.display='block';this.classList.add('custom-gallery-tab-active');">
+                <span>Archive EX</span><b>特殊角色</b>
+            </div>
+        </div>
+
+        <div id="cg-content1-[图鉴ID]" class="custom-gallery-content" style="display:block;">
+            <div class="custom-gallery-section-title"><span>Archive I</span><b>魔法少女</b><p>角色立绘、身份、能力与个人事件记录。</p></div>
+            [魔法少女图鉴]        </div>
+
+        <div id="cg-content2-[图鉴ID]" class="custom-gallery-content" style="display:none;">
+            <div class="custom-gallery-section-title"><span>Archive II</span><b>魔女</b><p>静渊结社十三席、权能、结界事件与深渊档案。</p></div>
+                        [魔女图鉴]        </div>
+
+        <div id="cg-content3-[图鉴ID]" class="custom-gallery-content" style="display:none;">
+            <div class="custom-gallery-section-title"><span>Archive EX</span><b>特殊角色</b><p>关键人物、隐藏角色与待解锁事件。</p></div>
+                        [特殊角色图鉴]        </div>
+    </div>
+</div>
