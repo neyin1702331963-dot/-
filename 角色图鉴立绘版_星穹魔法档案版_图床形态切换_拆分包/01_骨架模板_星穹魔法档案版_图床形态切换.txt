@@ -43,57 +43,52 @@
 </div>
 <script>
 (function(){
-    window.cgSwitchFormBtn=function(s){
-        if(!s||s.__cgSwitchBusy){return false;}
-        s.__cgSwitchBusy=true;
-        setTimeout(function(){s.__cgSwitchBusy=false;},120);
-        var a=s.parentNode,F=[];
-        var c=s.closest?s.closest('[data-forms]'):(a&&a.parentNode);
-        if(!a||!c){return false;}
-        try{var _r=c.getAttribute('data-forms')||'[]';_r=_r.replace(/&quot;/g,'"').replace(/&#34;/g,'"').replace(/&amp;/g,'&');F=JSON.parse(_r)}catch(err){}
+    function parseForms(c){
+        var raw=c.getAttribute('data-forms')||'[]';
+        try{return JSON.parse(raw);}catch(e){}
+        try{var ta=document.createElement('textarea');
+            for(var k=0;k<3;k++){ta.innerHTML=raw;var d=ta.value;if(d===raw){break;}
+                try{return JSON.parse(d);}catch(e2){}raw=d;}}catch(e3){}
+        return [];
+    }
+    function apply(art,card,f,i,F){
+        card.setAttribute('data-form-index',i);
+        card.setAttribute('data-current-form',f.name||'');
+        art.setAttribute('data-form-caption',f.role||f.name||'');
+        var m=art.querySelector('img');
+        if(m&&f.src){m.src=f.src;m.alt=(card.getAttribute('data-char-name')||'')+' - '+(f.name||'');}
+        var r=card.querySelector('.custom-char-role');if(r){r.textContent=f.role||'';}
+        var q=card.querySelector('.custom-char-quote');if(q){q.textContent=f.quote||'';}
+        var e=card.querySelector('.custom-char-event');
+        if(e){e.textContent=f.event||'';var b=document.createElement('b');b.textContent='形态记录';e.insertBefore(b,e.firstChild);}
+        var t=card.querySelector('.custom-char-tags');
+        if(t){t.textContent='';(f.tags||[]).forEach(function(x){var sp=document.createElement('span');sp.textContent=x;t.appendChild(sp);});}
+        var sw=card.querySelector('.custom-form-switch');if(sw){sw.textContent=(i+1)+'/'+F.length;}
+    }
+    function switchForm(art){
+        if(!art||art.__cgBusy){return false;}
+        var card=art.closest?art.closest('[data-forms]'):null;
+        if(!card){return false;}
+        var F=parseForms(card);
         if(!F.length){return false;}
-        var i=((parseInt(c.getAttribute('data-form-index')||'0',10)||0)+1)%F.length;
-        var f=F[i]||{};
-        c.setAttribute('data-form-index',i);
-        c.setAttribute('data-current-form',f.name||'');
-        a.setAttribute('data-form-caption',f.role||f.name||'');
-        var m=a.querySelector('img');
-        if(m&&f.src){
-            m.src=f.src;
-            m.alt=(c.getAttribute('data-char-name')||'')+' - '+(f.name||'');
-        }
-        var r=c.querySelector('.custom-char-role');
-        if(r){r.textContent=f.role||'';}
-        var q=c.querySelector('.custom-char-quote');
-        if(q){q.textContent=f.quote||'';}
-        var e=c.querySelector('.custom-char-event');
-        if(e){
-            e.textContent=f.event||'';
-            var b=document.createElement('b');
-            b.textContent='形态记录';
-            e.insertBefore(b,e.firstChild);
-        }
-        var t=c.querySelector('.custom-char-tags');
-        if(t){
-            t.textContent='';
-            (f.tags||[]).forEach(function(x){
-                var n=document.createElement('span');
-                n.textContent=x;
-                t.appendChild(n);
-            });
-        }
-        s.textContent=(i+1)+'/'+F.length;
-        a.classList.remove('custom-art-switching');
-        a.classList.add('custom-art-switched');
-        setTimeout(function(){a.classList.remove('custom-art-switched');},520);
+        art.__cgBusy=true;
+        var i=((parseInt(card.getAttribute('data-form-index')||'0',10)||0)+1)%F.length,f=F[i]||{};
+        try{if(f.src){var pre=new Image();pre.src=f.src;}}catch(e){}
+        art.classList.add('custom-art-switching');
+        setTimeout(function(){
+            apply(art,card,f,i,F);
+            art.classList.remove('custom-art-switching');
+            setTimeout(function(){art.__cgBusy=false;},560);
+        },210);
         return false;
-    };
+    }
     document.addEventListener('click',function(ev){
-        var s=ev.target&&ev.target.closest?ev.target.closest('.custom-form-switch[data-cg-switch]'):null;
-        if(!s){return;}
+        var art=ev.target&&ev.target.closest?ev.target.closest('.custom-char-art'):null;
+        if(!art){return;}
+        if(!(art.closest&&art.closest('[data-forms]'))){return;}
         if(ev.preventDefault){ev.preventDefault();}
         if(ev.stopPropagation){ev.stopPropagation();}
-        window.cgSwitchFormBtn(s);
+        switchForm(art);
     });
 })();
 </script>

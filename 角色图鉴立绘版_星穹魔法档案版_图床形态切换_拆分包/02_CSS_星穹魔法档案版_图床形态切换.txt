@@ -793,7 +793,15 @@
     }
 
     .custom-char-card[data-forms] .custom-char-art{
-        cursor:default!important;
+        cursor:pointer!important;
+    }
+
+    .custom-char-card[data-forms]:hover .custom-char-art{
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,.32),
+            inset 0 0 38px rgba(217,208,255,.12),
+            0 16px 34px rgba(0,0,0,.4),
+            0 0 44px rgba(159,134,255,.3)!important;
     }
 
     .custom-char-art img{
@@ -807,7 +815,7 @@
         border-radius:18px!important;
         filter:saturate(.98) contrast(1.06) brightness(.96)!important;
         transform:scale(1.012);
-        transition:opacity .28s ease,transform .46s cubic-bezier(.2,.8,.2,1),filter .34s ease;
+        transition:opacity .34s ease,transform .56s cubic-bezier(.16,1,.3,1),filter .42s ease;
         opacity:1!important;
         visibility:visible!important;
         background:linear-gradient(180deg,#1a1a43,#070715)!important;
@@ -819,27 +827,19 @@
         filter:saturate(1.08) contrast(1.1) brightness(1)!important;
     }
 
+    /* 切换淡出态：透明度/模糊/位移均通过 transition 在 !important 计算值之间插值，
+       因此即使基础 img 的 opacity、filter 带 !important 也能正常播放动画。
+       JS 先加 .custom-art-switching（淡出），换图后移除（自动淡入）。 */
     .custom-char-art.custom-art-switching img{
-        opacity:.2!important;
-        transform:scale(1.045) translateY(8px);
-        filter:blur(4px) saturate(1.08) contrast(1.08) brightness(1.08)!important;
+        opacity:0!important;
+        transform:scale(1.07) translateY(16px) rotate(.6deg)!important;
+        filter:blur(9px) saturate(1.14) contrast(1.04) brightness(1.18)!important;
     }
 
-    .custom-char-art.custom-art-switched img{
-        animation:cg-form-image-in .46s cubic-bezier(.16,1,.3,1) both;
-    }
-
-    @keyframes cg-form-image-in{
-        from{
-            opacity:.22;
-            transform:scale(1.045) translateY(8px);
-            filter:blur(4px) saturate(1.08) contrast(1.08) brightness(1.08);
-        }
-        to{
-            opacity:1;
-            transform:scale(1.012);
-            filter:saturate(.98) contrast(1.06) brightness(.96);
-        }
+    /* 切换瞬间让星纹高光闪一下，增强“档案翻页”的魔法感（:before 无 !important，可自由过渡） */
+    .custom-char-art.custom-art-switching:before{
+        opacity:1;
+        filter:brightness(1.85) saturate(1.25);
     }
 
     .custom-char-art:before{
@@ -855,6 +855,7 @@
             linear-gradient(180deg,rgba(5,5,18,.02) 38%,rgba(5,5,18,.74));
         background-size:88px 88px,100% 100%,100% 100%,100% 100%;
         opacity:.82;
+        transition:opacity .42s ease,filter .42s ease;
     }
 
     .custom-char-art:after{
