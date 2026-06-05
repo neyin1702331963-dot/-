@@ -93,5 +93,6 @@
     }
     document.addEventListener('click',onTap,true);
     document.addEventListener('pointerup',onTap,true);
+    document.addEventListener('touchend',onTap,true);
 })();
 </script>
