@@ -11,8 +11,10 @@
 - [ ] 设定一致性：开场白/世界书/状态栏数据互不矛盾（角色名、时间线、数值）
 
 ## 格式层（全平台）
-- [ ] json语法校验通过：python -m json.tool <文件> > /dev/null
+- [ ] json语法校验通过：python -m json.tool <文件> > /dev/null（能拦截裸换行/未转义引号/BOM）
+- [ ] MMD导入json：replaceString内所有换行已转义为\n（非真实换行）、HTML双引号转义为\"、文件无UTF-8 BOM
 - [ ] chara_card_v3：顶层与data字段同步；spec/spec_version正确
+- [ ] MMD项目角色卡为v2格式：spec="chara_card_v2"、spec_version="2.0"、无group_only_greetings（MMD不识别v3）
 - [ ] 世界书：蓝灯constant:true（key可为空）、绿灯constant:false有keys；递归控制按设计
 - [ ] output/文件齐全且main.md索引已更新
 
@@ -32,8 +34,11 @@
 
 ## 正则层（MMD）
 - [ ] 总条数≤30
-- [ ] 每条findRegex≤1000字符、replaceString≤10000字符（标注实测值）
+- [ ] 每条findRegex≤1000字符、replaceString≤20000字符（标注实测值）
 - [ ] 导入json：含pageDepth/statusbar/beginning/regex_scripts四字段，每条正则id=-1
+- [ ] **导入json通过 `python -m json.tool 文件 > /dev/null` 校验（拦截裸换行/未转义引号）**
+- [ ] **文件无UTF-8 BOM**
+- [ ] **回读 replaceString：解析后HTML无多余反斜杠（防双重转义，见 output/regex-output.md 2.4）**
 - [ ] 手填清单（备选交付时）：每条带用途、分框代码块、字符数、勾选框
 - [ ] 替换链标记（Z_CONTENT等）首尾衔接无断裂
 

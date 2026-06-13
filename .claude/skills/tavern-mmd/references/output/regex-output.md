@@ -116,9 +116,66 @@ MMD 平台支持直接导入专用 4 字段格式的 json（与本地酒馆正�
 
 注意：
 - **没有** placement/markdownOnly/promptOnly 等字段（MMD 正则仅作用于显示层）
-- 限额仍然适用：≤30条、findRegex≤1000字符、replaceString≤10000字符
+- 限额仍然适用：≤30条、findRegex≤1000字符、replaceString≤20000字符
 - 现成范例见 `../../assets/radar-examples/` 下两个"导入用"json
 - 校验命令同第一节
+
+### 2.3 JSON 字符串转义（最易踩的坑，必读）
+
+`replaceString` 里放大段 HTML/CSS/JS 时，**整个值必须是合法的 JSON 字符串字面量**，否则 MMD 导入会报"json 数据异常"。两条铁律：
+
+1. **所有换行必须转义为 `\n`，不能用真实换行。** HTML 在源码里是多行的，但写进 JSON 后必须是单行字符串，换行用 `\n` 表示。
+   - ❌ 错误（值里有真实回车，JSON 非法）：
+     ```
+     "replaceString": "<style>
+     body{color:red}
+     </style>"
+     ```
+   - ✅ 正确：
+     ```
+     "replaceString": "<style>\nbody{color:red}\n</style>"
+     ```
+2. **HTML 内部的双引号必须转义为 `\"`**（如 `class=\"box\"`），或在 HTML 里改用单引号。
+3. **文件不能带 UTF-8 BOM**：用无 BOM 的 UTF-8 保存（Windows 记事本"另存为"要选 UTF-8 而非 UTF-8 BOM）。
+
+**生成方式（强烈推荐）**：不要手写转义。用脚本构造对象再序列化，让工具自动转义：
+
+```python
+import json
+html = open('statusbar.html', encoding='utf-8').read()   # 可读的多行HTML
+obj = {
+    "pageDepth": 2,
+    "statusbar": "<wabisabi-ui>",
+    "beginning": "",
+    "regex_scripts": [
+        {"id": -1, "scriptName": "规则名", "findRegex": "<wabisabi-ui>", "replaceString": html}
+    ]
+}
+# ensure_ascii=False 保留中文；json.dumps 自动把换行转\n、引号转\"
+open('out.json', 'w', encoding='utf-8').write(json.dumps(obj, ensure_ascii=False, indent=2))
+json.loads(open('out.json', encoding='utf-8').read())   # 回读自检
+```
+
+### 2.4 双重转义陷阱（用脚本时必查）
+
+`json.dumps` 只能对**裸 HTML**（属性引号是 `"`、换行是真实换行）正确转义一次。若喂给它的 `html` 变量本身已经是转义过的内容（属性写成 `\"`、换行写成字面 `\n`），会被**再转义一层**，导致：
+
+- 解析出来的 HTML 里属性变成 `class=\"box\"`（多了反斜杠），浏览器渲染错乱
+- 或字面 `\n` 没变成真换行，CSS 全挤在一行
+
+典型来源：从另一个 JSON 的 `replaceString` 里复制内容、或从聊天记录粘贴已转义的代码。
+
+**强制自检（生成后必跑）**：
+```python
+import json
+rs = json.load(open('out.json', encoding='utf-8'))['regex_scripts'][0]['replaceString']
+assert rs.count('\\') == 0 or '\\' not in rs, f'HTML残留{rs.count(chr(92))}个反斜杠，疑双重转义'
+assert '<script' not in rs.lower(), '含<script>，旧版MMD禁用'
+print('字符数', len(rs), '| 残留反斜杠', rs.count(chr(92)))
+```
+解析后的 `replaceString` 里**反斜杠数应为 0**（除非 HTML/JS 逻辑真的需要反斜杠，如正则脚本——纯美化 HTML 通常不含）。若数量异常偏高（几百个），几乎一定是双重转义，需把源 HTML 先 `.replace('\\"','"')` 还原再重新 dumps。
+
+**交付前必须 `python -m json.tool out.json > /dev/null`**——能拦住裸换行、未转义引号、BOM 等全部此类错误。
 
 ---
 
@@ -130,7 +187,7 @@ MMD 平台支持直接导入专用 4 字段格式的 json（与本地酒馆正�
 # <项目名> MMD正则配置清单
 
 > 共N条（限额30）。逐条复制到MMD平台正则配置界面。
-> 每条均已标注字符数；findRegex限1000字符，replaceString限10000字符。
+> 每条均已标注字符数；findRegex限1000字符，replaceString限20000字符。
 
 ## 规则1：<用途说明>
 
@@ -140,7 +197,7 @@ MMD 平台支持直接导入专用 4 字段格式的 json（与本地酒馆正�
 <status>
 ```
 
-**replaceString**（填入"替换"框，X字符/限10000）：
+**replaceString**（填入"替换"框，X字符/限20000）：
 
 ```
 <div class="z-status-box" ...>……
