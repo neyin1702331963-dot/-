@@ -1,0 +1,13 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "内联事件探针：测 DOM 属性里的 JS 能否 多行 / 双引号 / 复杂onclick。\n应出现 A/B/D 三个绿框 + C 一个按钮（点它出结果）。哪个缺失=该写法被限制。\n<inlineprobe>",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "内联探针",
+      "findRegex": "<inlineprobe>",
+      "replaceString": "<img src='x' style='display:none' onerror=\"(function(e){var d=document.createElement('div');d.style.margin='6px';d.style.padding='8px';d.style.borderRadius='6px';d.style.fontSize='13px';d.style.background='#e6f7e6';d.style.color='#1a7f1a';d.textContent='✓ A 单行 onerror 可用（基准）';e.parentNode.insertBefore(d,e.nextSibling)})(this)\">\n<img src='x' style='display:none' onerror=\"\n(function(e){\n  var d=document.createElement('div');\n  d.style.margin='6px';d.style.padding='8px';d.style.borderRadius='6px';d.style.fontSize='13px';\n  d.style.background='#e6f7e6';d.style.color='#1a7f1a';\n  d.textContent='✓ B 多行 onerror 可用（属性里带换行）';\n  e.parentNode.insertBefore(d,e.nextSibling);\n})(this)\n\">\n<button type='button' style='margin:6px;padding:8px 14px;border-radius:6px;border:1px solid #c8794f;background:#fff8f0;color:#5a4636' onclick=\"\nvar d=this.nextElementSibling;\ntry{\n  var x=1+2;\n  d.textContent='✓ C 多行 onclick(含try-catch) 可用 结果='+x;\n  d.style.color='#1a7f1a';\n}catch(err){\n  d.textContent='✗ C 报错 '+err;\n}\n\">点我测多行 onclick</button><div style='margin:6px;padding:8px;font-size:13px;color:#856404'>C：点上面的按钮看结果（按钮若消失=被切除）</div>\n<img src='x' style='display:none' onerror='(function(e){var d=document.createElement(\"div\");d.style.margin=\"6px\";d.style.padding=\"8px\";d.style.borderRadius=\"6px\";d.style.fontSize=\"13px\";d.style.background=\"#e6f7e6\";d.style.color=\"#1a7f1a\";d.textContent=\"✓ D 单引号属性内用双引号 可用\";e.parentNode.insertBefore(d,e.nextSibling)})(this)'>"
+    }
+  ]
+}
