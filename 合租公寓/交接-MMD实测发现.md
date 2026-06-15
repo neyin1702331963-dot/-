@@ -54,15 +54,18 @@
 | 单行 inline `onclick`（`this.x='y'` 直接 DOM 操作） | 旧版"放行极简单行" | ❌ **不触发**（C1 实测） |
 | `onclick="window.__fn()"`（调全局函数） | — | ✅ 可用（C2 实测） |
 | `el.onclick=function(){}`（img onerror 里 JS 赋值） | ✅ | ✅ 可用（C3 实测） |
+| `onclick="eval(getElementById(..).dataset.s)"`（轻主板+胖遥控器 §5.3） | ✅ | ✅ **仍可用**（E1 实测；eval 本体未被 CSP 拦） |
+| `onclick="eval('内联代码字符串')"`（代码串塞进属性） | — | ❌ 不触发（E2 实测） |
 | 复杂/多行 `onclick`（`var`+`try-catch`） | 整元素被"手术式切除" | ⚠️ 元素保留但不触发 |
 
 **结论**：
 - `onerror` 彻底解放：多行、双引号随便用，代码可写干净。
-- **`onclick` 属性里的逻辑全被净化**——连单行 `this.xxx='yyy'` 都不放行（比旧版更严）；**只认 `onclick="window.__fn()"` 这种"调用全局函数"的形式**。
-- 干活两条路：① `img onerror`/`<script>` 里定义 `window.__唯一名` + `onclick="__fn()"`（官方推荐）；② `img onerror` 里 `el.onclick=function(){}` **JS 赋值**绑定（净化器只扫 HTML 属性文本，扫不到 JS 赋的 handler——雷达引擎选项按钮即此法，故一直能点）。
+- **`onclick` 属性放行的是"干净的调用/引用表达式"**（`__fn()`、`eval(x.dataset.s)`——属性里只有标识符与属性访问）；**一旦属性里出现代码字符串字面量或直接 DOM 赋值语句就被净化**（C1 单行 `this.x='y'`、E2 `eval('...代码...')` 均不触发）。
+- **旧版 §5.3「轻主板+胖遥控器」在当前 MMD 确认仍可用**（E1）——因为它把代码放进 `data-s`、onclick 只做 `eval(dataset.s)`，恰好符合"属性内只有调用表达式"的放行条件。**无需标"待复测"，可标"已复测可用"。**
+- 干活三条路（均实测可用）：① `onclick="window.__fn()"` 调全局函数；② `img onerror` 里 `el.onclick=function(){}` JS 赋值（雷达引擎用此法）；③ 轻主板 `onclick="eval(...dataset.s)"`。
 - 旧版"手术式切除整元素"在当前版**已改为只净化 onclick 属性**（元素保留）。
 
-> 探针文件：`output/正则导入-内联测试.json`、`output/正则导入-onclick边界.json`
+> 探针文件：`output/正则导入-内联测试.json`、`output/正则导入-onclick边界.json`、`output/正则导入-eval测试.json`
 
 ---
 
