@@ -51,14 +51,18 @@
 | 单行 `onerror` | ✅ | ✅ |
 | **多行 `onerror`**（属性值带换行） | ❌ 单行 only | **✅ 可用** |
 | **属性内双引号**（单引号属性 `onerror='...'` 内用 `"`） | ❌ 须单引号 | **✅ 可用** |
-| **复杂 `onclick`**（多行 + `var` + `try-catch`） | ❌ 整个元素被"手术式切除" | ⚠️ **元素不再被删，但 onclick 不触发（被净化）** |
+| 单行 inline `onclick`（`this.x='y'` 直接 DOM 操作） | 旧版"放行极简单行" | ❌ **不触发**（C1 实测） |
+| `onclick="window.__fn()"`（调全局函数） | — | ✅ 可用（C2 实测） |
+| `el.onclick=function(){}`（img onerror 里 JS 赋值） | ✅ | ✅ 可用（C3 实测） |
+| 复杂/多行 `onclick`（`var`+`try-catch`） | 整元素被"手术式切除" | ⚠️ 元素保留但不触发 |
 
 **结论**：
 - `onerror` 彻底解放：多行、双引号随便用，代码可写干净。
-- `onclick` 仍被净化：**只能"单行调用一个全局函数"**（官方示例全是 `onclick="window.__fn()"`）。复杂逻辑必须：① `<script>` 定义 `window.__唯一名`，或 ② 在 `img onerror` 里用 `el.onclick=function(){}` **JS 赋值**绑定（净化器只扫 HTML 属性文本，扫不到 JS 赋的处理器——雷达引擎选项按钮即此法，故不受影响）。
+- **`onclick` 属性里的逻辑全被净化**——连单行 `this.xxx='yyy'` 都不放行（比旧版更严）；**只认 `onclick="window.__fn()"` 这种"调用全局函数"的形式**。
+- 干活两条路：① `img onerror`/`<script>` 里定义 `window.__唯一名` + `onclick="__fn()"`（官方推荐）；② `img onerror` 里 `el.onclick=function(){}` **JS 赋值**绑定（净化器只扫 HTML 属性文本，扫不到 JS 赋的 handler——雷达引擎选项按钮即此法，故一直能点）。
 - 旧版"手术式切除整元素"在当前版**已改为只净化 onclick 属性**（元素保留）。
 
-> 探针文件：`output/正则导入-内联测试.json`
+> 探针文件：`output/正则导入-内联测试.json`、`output/正则导入-onclick边界.json`
 
 ---
 
