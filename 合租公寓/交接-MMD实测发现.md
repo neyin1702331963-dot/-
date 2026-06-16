@@ -28,25 +28,32 @@
 
 ---
 
-## 发现 2：`<script>` 载体做不了 per-message 自渲染状态栏（实测 ❌）
+## 发现 2：`<script>` 执行与否取决于「位置」——开场白不执行，AI 回复里执行（已修正）
 
-**专项判定探针实测（决定性）**：一条正则同时注入 `<script>`（S1，用 `document.currentScript` 自检）+ `img onerror`（S2，对照）。结果：**S2 绿、S1 一个框都没有**。S1 脚本经 `new Function` 验证语法合法（浏览器必执行）→ 即 **`<script>` 经正则注入在 MMD 根本不执行**（不是"执行了但 currentScript 为 null"——那会出 S1 橙框）。
+> 本节经多轮探针**自我修正**。早期"`<script>` 在 MMD 不执行"的结论是**只在开场白测试**得出的过度概括；补测 AI 回复场景后修正如下。
 
-**机制**：平台把正则替换内容当 **innerHTML** 插入；HTML 规范下 **innerHTML 里的 inline `<script>` 永不执行**，而 `<img onerror>` 会触发。这就是为什么状态栏引擎换 `<script>` 载体后整块空白。
+**决定性实测（按位置分）：**
 
-**结论**：
-- **per-message 动态渲染（状态栏引擎）必须用 `<img onerror>`**；字面 `<script>` 标签经正则注入**不执行**。
-- ⚠️ **与官方《写法指南》有出入**：官方示例 5/6/14 写 `<script>window.__fn=…</script>` 并称可用，但实测正则注入的 `<script>` 不执行。可能文档不准，或指"非正则注入（如直接写入某处、一次性）"的场景——**建议作者复核其示例 `<script>` 的实际生效位置**。
-- 术语澄清：作者口中"script 还能生效"指**广义 JS 能跑**（其卡用 `img onerror` 载体，JS 照跑），并非字面 `<script>` 标签执行——与本结论不冲突。
+| `<script>` 所在位置 | 是否执行 | 证据 |
+|---|---|---|
+| 开场白（直写） | ❌ 不执行 | 探针 A 无输出（同位置 img onerror 正常）；官方文档亦称"开场白直接贴不执行" |
+| 开场白（正则替换出） | ❌ 不执行 | script版状态栏空白；script判定探针 S1 无输出 |
+| **AI 回复（正则替换出）** | ✅ **执行** | script复测：AI 回复里 S（`<script>`）与 I（img）框**双绿** |
 
-> 探针文件：`output/正则导入-script版.json`（状态栏空白反例）、`output/正则导入-script判定.json`（S1无输出/S2绿，决定性证据）
+**结论（修正后）：**
+- 官方《写法指南》"`<script>` 写在正则替换为里会执行"——**是对的**，前提是**触发标记出现在 AI 回复**（其推荐工作流即如此）。早期判其"不准"属测试位置不全，**特此更正**。
+- `<script>` 的有效场景 = **AI 回复里被正则替换出来**；**开场白里（无论直写或正则替换）不执行**（innerHTML 惰性）。
+- 平台**未内置** `window.ButtonListenModule`（E 探针橙）；用 `<script>` 框架须先在某条回复里加载管理器本体（之后作为 window 全局常驻）。
 
-**补充实测（直写路径 + 平台内置检查）**：
-- **`<script>` 直接写入开场白（非正则注入）同样不执行**——探针 A（直写 `<script>`）无输出，而同位置的 B（直写 `img onerror`）正常执行。即**消息/开场白内容里的 `<script>`，无论正则注入还是直写，在 MMD 都不执行**。
-- 平台**未内置** `window.ButtonListenModule`（E 探针橙）。社区流传的 `ButtonListenModule` 监听框架（文档以 `<script>ButtonListenModule.listen(...)</script>` 形式分发）在 MMD 消息内**不会因 `<script>` 而生效**；其能力本质是 `addEventListener` 事件委托，**可且应由 `img onerror` 引导**（或平台另设的"自定义 JS 槽"，未测）。
-- **副作用**：含 `<script>` 时，紧邻的基准元素 D 一并消失——疑似净化器剥离 `<script>` 时波及相邻内容（与作者"标签当恶意代码洗掉、相邻代码全崩"吻合）。**即消息内混入 `<script>` 不仅自身不执行，还可能拖垮相邻正常元素。**
+**对两类用途的取舍：**
+- **监听 / 注册型**（如 `ButtonListenModule.listen`、定义 `window.__fn`）：`<script>`（AI 回复里）**可行且思路正确**——只需注册一次、常驻，"同段 script 只加载一次"的去重对它**无影响**。`img onerror` 同样能做，二选一。
+- **状态栏 / per-message 自渲染**：仍**推荐 `img onerror`**——`<script>` 有三坑：① 开场白首条不执行（首条状态栏空）；② 同段 script 去重 → 后续回复同款引擎不重跑；③ 无 `document.currentScript` 难自定位。img onerror 每元素每条触发、`this` 可定位，全避开。
 
-> 探针文件：`output/正则导入-script直写测试.json`
+**副作用（开场白场景实测）**：开场白内含 `<script>` 时，紧邻基准元素一并消失——疑似净化剥离 `<script>` 波及相邻内容（与作者"标签当恶意代码洗掉、相邻全崩"吻合）。混排 `<script>` 仍需谨慎。
+
+**术语澄清**：作者"script 还能生效"指广义 JS 能跑（其卡 AI 回复里的 script / img onerror 均可），与本节一致。
+
+> 探针文件：`output/正则导入-script判定.json`（开场白·不执行）、`output/正则导入-script直写测试.json`（直写·不执行+平台未内置BLM）、`output/正则导入-script复测.json` + `output/script复测-角色卡.png`（AI回复·执行，决定性）
 
 ---
 
