@@ -30,17 +30,16 @@
 
 ## 发现 2：`<script>` 载体做不了 per-message 自渲染状态栏（实测 ❌）
 
-把雷达引擎从 `img onerror` 改成 `<script>` 载体后，状态栏**整块空白**。结合平台官方《聊天页正则JS写法指南》，原因有二：
+**专项判定探针实测（决定性）**：一条正则同时注入 `<script>`（S1，用 `document.currentScript` 自检）+ `img onerror`（S2，对照）。结果：**S2 绿、S1 一个框都没有**。S1 脚本经 `new Function` 验证语法合法（浏览器必执行）→ 即 **`<script>` 经正则注入在 MMD 根本不执行**（不是"执行了但 currentScript 为 null"——那会出 S1 橙框）。
 
-1. **`<script>` 内拿不到自身位置**：官方所有 script 示例都是 `window.__fn = window.__fn || function(){}` + `onclick` 调用，**从不自定位**；自渲染引擎依赖的 `document.currentScript` 在 MMD 执行模型里不可用。
-2. **同一段 `<script>` 只加载一次**（官方原文）：而状态栏每条消息都带一份相同引擎 → 会被去重，不逐条执行。
+**机制**：平台把正则替换内容当 **innerHTML** 插入；HTML 规范下 **innerHTML 里的 inline `<script>` 永不执行**，而 `<img onerror>` 会触发。这就是为什么状态栏引擎换 `<script>` 载体后整块空白。
 
 **结论**：
-- **per-message 动态渲染（状态栏引擎）必须用 `<img onerror>`** —— 每元素每条触发、`this` 可靠自定位。
-- `<script>` 的正确用途：定义 `window.__唯一名` 全局函数，给 `onclick` 调（选项填输入框、折叠、画廊切图等**交互**）。
-- 即"开放 script"对**动态状态栏无帮助**；它主要让**点击类交互**可以正规写，降低新手门槛。
+- **per-message 动态渲染（状态栏引擎）必须用 `<img onerror>`**；字面 `<script>` 标签经正则注入**不执行**。
+- ⚠️ **与官方《写法指南》有出入**：官方示例 5/6/14 写 `<script>window.__fn=…</script>` 并称可用，但实测正则注入的 `<script>` 不执行。可能文档不准，或指"非正则注入（如直接写入某处、一次性）"的场景——**建议作者复核其示例 `<script>` 的实际生效位置**。
+- 术语澄清：作者口中"script 还能生效"指**广义 JS 能跑**（其卡用 `img onerror` 载体，JS 照跑），并非字面 `<script>` 标签执行——与本结论不冲突。
 
-> 反例文件：`output/正则导入-script版.json`（导入后状态栏空白，作反面教材）
+> 探针文件：`output/正则导入-script版.json`（状态栏空白反例）、`output/正则导入-script判定.json`（S1无输出/S2绿，决定性证据）
 
 ---
 
