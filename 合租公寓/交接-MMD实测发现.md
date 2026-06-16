@@ -41,6 +41,13 @@
 
 > 探针文件：`output/正则导入-script版.json`（状态栏空白反例）、`output/正则导入-script判定.json`（S1无输出/S2绿，决定性证据）
 
+**补充实测（直写路径 + 平台内置检查）**：
+- **`<script>` 直接写入开场白（非正则注入）同样不执行**——探针 A（直写 `<script>`）无输出，而同位置的 B（直写 `img onerror`）正常执行。即**消息/开场白内容里的 `<script>`，无论正则注入还是直写，在 MMD 都不执行**。
+- 平台**未内置** `window.ButtonListenModule`（E 探针橙）。社区流传的 `ButtonListenModule` 监听框架（文档以 `<script>ButtonListenModule.listen(...)</script>` 形式分发）在 MMD 消息内**不会因 `<script>` 而生效**；其能力本质是 `addEventListener` 事件委托，**可且应由 `img onerror` 引导**（或平台另设的"自定义 JS 槽"，未测）。
+- **副作用**：含 `<script>` 时，紧邻的基准元素 D 一并消失——疑似净化器剥离 `<script>` 时波及相邻内容（与作者"标签当恶意代码洗掉、相邻代码全崩"吻合）。**即消息内混入 `<script>` 不仅自身不执行，还可能拖垮相邻正常元素。**
+
+> 探针文件：`output/正则导入-script直写测试.json`
+
 ---
 
 ## 发现 2.5：内联事件实测（DOM 属性里的 JS）
