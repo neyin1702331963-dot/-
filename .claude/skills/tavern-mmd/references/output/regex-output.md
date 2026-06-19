@@ -2,6 +2,8 @@
 
 三种交付形式：**本地酒馆正则 JSON**（可导入）、**MMD 导入 JSON**（首选，平台直接导入）和 **MMD 手填清单**（Markdown 文档，备选）。
 
+> **单独美化 / 状态栏流程的默认交付** = 正则 json + 规则.md（独立的状态栏生成规则文档/模型侧协议），不强制塞进某张卡。若是做整张角色卡，正则默认内嵌进卡、状态栏规则进卡内世界书（蓝灯），见 card-json.md 第 8 节。
+
 ---
 
 ## 第一节：本地酒馆正则 JSON
@@ -116,7 +118,7 @@ MMD 平台支持直接导入专用 4 字段格式的 json（与本地酒馆正�
 
 注意：
 - **没有** placement/markdownOnly/promptOnly 等字段（MMD 正则仅作用于显示层）
-- 限额仍然适用：≤30条、findRegex≤1000字符、replaceString≤20000字符
+- 限额仍然适用：≤130条、findRegex≤1000字符、replaceString≤20000字符
 - 现成范例见 `../../assets/radar-examples/` 下两个"导入用"json
 - 校验命令同第一节
 
@@ -177,6 +179,41 @@ print('字符数', len(rs), '| 残留反斜杠', rs.count(chr(92)))
 
 **交付前必须 `python -m json.tool out.json > /dev/null`**——能拦住裸换行、未转义引号、BOM 等全部此类错误。
 
+### 2.5 交付前强制审核（用 validate.py，必做）
+
+skill 自带 `scripts/validate.py` 一次性覆盖上述所有检查（JSON合法性、BOM、双重转义、平台红线、字符数、v2规范、**悬空标记**），比手写 assert 更全。**0 错误才能交付：**
+
+```bash
+python <skill>/scripts/validate.py output/文件.json --platform <mmd|oldmmd>
+```
+
+报错对照处理：
+- `双重转义` → 源HTML喂 json.dumps 前已含 `\"`，先 `.replace(chr(92)+chr(34), chr(34))` 还原（见 2.4 与 wabisabi 案例）
+- `BOM` → 改用无 BOM 的 UTF-8 保存
+- `换行` → replaceString 内真实换行未转 `\n`
+- `<script>`/`ES6`/`innerHTML` → 旧版MMD红线，按报告改写
+- `悬空标记` → `statusbar`/`beginning` 里有 `<标记>` 但 `regex_scripts` 没有对应 `findRegex` 消费；会在页面裸露，必须补正则或删标记
+
+可选预览（状态栏/美化必做）：`python <skill>/scripts/build-preview.py output/文件.json --platform <mmd|oldmmd>`（默认 `--mode both`）。MMD 导入 json 会生成两份：**三面板沙箱**（①第一句话整合预览，若第一句话含选项菜单/图片/特殊美化会一起显示；②状态栏单独预览；③悬浮组件预览，侧边栏/悬浮球）用于逐组件审核；**全景预览**（`-panorama-` 文件）把所有组件组合进一个模拟 MMD 聊天页，底部固定主输入框+发送按钮，发送出现用户气泡+占位AI气泡，用于二次审核组合效果。主AI 用 Preview 工具先看三面板、再看全景，全景不默认关闭留给用户自查。
+
+> `--platform mmd`（当前 MMD）下，`<script>`/ES6/onerror多行均不报红（实测支持），只对 onclick 代码字面量/赋值告警；`--platform oldmmd` 保持全红线最严格。校验当前 MMD 产出务必带 `--platform mmd`，否则会误报 ES6/script。
+
+### 2.6 平台原生替换语法（当前 MMD，写正则时可直接用）
+
+MMD 平台正则的 `replaceString` 内除了 HTML/CSS/JS，还可用平台内置语法：
+
+| 写法 | 作用 | 生效范围 |
+|---|---|---|
+| `$1` `$2` | 引用 findRegex 捕获组 | 通用 |
+| `$字段名`（如 `$hp`） | KV 格式字段引用：findRegex 第一个捕获里同时含 `::` 和 `;;` 时，替换里用 `$hp` 取 `hp::85;;...` 的值 | 原生 KV 状态栏（零JS固定字段） |
+| `{{random:A::B::C}}` | 随机显示其一；多个 random 各自独立 | 替换内容里 |
+| `{{user}}` / `{{char}}` | 玩家名 / 角色名 | **仅开场白**，AI 回复里不替换 |
+| 替换留空 | 匹配内容隐藏（AI 仍可见原文） | 通用 |
+
+**标签白名单（AI 回复里）**：可用 `div span p a img button style details summary table video input textarea` 等；会被删 `section header footer nav iframe canvas audio form`。开场白限制更少。
+
+**选项填输入框的选择器**：官方示例用 `document.querySelector('textarea, input[type="text"]')`；若引擎/脚本写死了 `.uni-textarea-textarea`，建议加这层兜底选择器，避免平台改版选不中输入框。
+
 ---
 
 ## 第三节：MMD 手填清单（Markdown 交付物，备选）
@@ -186,7 +223,7 @@ print('字符数', len(rs), '| 残留反斜杠', rs.count(chr(92)))
 ````markdown
 # <项目名> MMD正则配置清单
 
-> 共N条（限额30）。逐条复制到MMD平台正则配置界面。
+> 共N条（限额130）。逐条复制到MMD平台正则配置界面。
 > 每条均已标注字符数；findRegex限1000字符，replaceString限20000字符。
 
 ## 规则1：<用途说明>
@@ -209,7 +246,7 @@ print('字符数', len(rs), '| 残留反斜杠', rs.count(chr(92)))
 （同上结构）
 
 ---
-总条数核对：N/30
+总条数核对：N/130
 ````
 
 ### 3.1 清单生成规则
@@ -217,7 +254,7 @@ print('字符数', len(rs), '| 残留反斜杠', rs.count(chr(92)))
 1. **每条带编号 + 用途说明**：标题格式 `## 规则N：<用途>`，便于追踪
 2. **findRegex 与 replaceString 分开独立代码块**：每块单独全选复制，减少误操作
 3. **字符数为实测值**：生成时统计并标注在括号内（如 `248字符/限1000`）
-4. **末尾总条数核对行**：`总条数核对：N/30`，超过30条须拆分或合并规则
+4. **末尾总条数核对行**：`总条数核对：N/130`，超过130条须拆分或合并规则
 5. **每条勾选框**：`- [ ] 已填写`，手填完毕后勾选，避免遗漏
 
 ### 3.2 MMD 平台填写注意事项

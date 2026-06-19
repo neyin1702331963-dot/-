@@ -11,17 +11,19 @@
 
 ## MMD 激活机制
 
-> `<script>` 标签在 MMD 会被过滤，改用 img onerror 执行 JS。所有覆盖样式以 `body.z-enabled` 为前缀，便于一键还原。
+> 旧版 MMD `<script>` 被过滤，必须 img onerror 执行 JS。**当前 MMD（/mmd）`<script>` 已实测可执行**：全局美化激活是"给 body 加一次开关类"的一次性操作（不是 per-message 自渲染，不踩 `<script>` 去重/`currentScript` 限制），因此 `<script>` 与 img onerror 两种激活器都可用，推荐仍保留 img onerror 版作跨版本回退。所有覆盖样式以 `body.z-enabled` 为前缀，便于一键还原。
 
 | 部件 | 写法 | 说明 |
 |---|---|---|
 | 激活开关 | `<img src="x" style="display:none" onerror="document.body.classList.add('z-enabled');this.remove()">` | img onerror 注入 JS，执行后自毁 |
 | 总开关类 | `body.z-enabled` | 所有覆盖样式都以它为前缀，便于一键还原 |
 | 夜间模式类 | `body.z-enabled.z-dark-mode` | 覆盖同名 CSS 变量即换色，选择器不动 |
-| 悬浮切换按钮 | `.z-sidebar-btn` + `.z-btn-text` | fixed 贴边按钮，inline onclick 循环 原/日/夜 |
+| 悬浮切换按钮 | `.z-sidebar-btn` + `.z-btn-text` | fixed 贴边按钮，点击循环 原/日/夜。**切换逻辑走合法路径**：/oldmmd 用轻主板 `eval(dataset.s)`；/mmd 用 `window.__fn()` 或 `el.onclick=function(){}`（img onerror 里赋值）——inline onclick 直接写 `classList.toggle` 在 /mmd 会被净化 |
 | 正则配合类 | `.z-q` 等 | 留给正则把正文关键词包成 `<span class="z-q">`，复用全局样式 |
 
 自定义类一律加自己的前缀（样本用 `z-`），避免撞平台类名。
+
+> **可拖动悬浮球 / 侧边栏抽屉 / 带菜单的悬浮按钮**（运行时 img onerror 注入、菜单跟随本体+翻转避裁+选项可点击、两版分流的认证写法）见 `floating-components.md`。本表的"悬浮切换按钮"仅是 fixed 贴边的主题切换按钮，不可拖动。
 
 ---
 
@@ -226,3 +228,11 @@ replaceString:
 ```
 
 > `findRegex` 的触发标记由卡片开场白或系统提示插入，正则匹配后替换为激活器+样式块。
+
+## 换用风格数据库
+
+上方主题变量架构里的 `--lb/--lc/--lcm/--lm/--lt/--lts/--la/--lg/--lh/--ls/--lif` 可由 ../style-db/ 任一风格的配色填充，**变量结构与选择器不动**，只换值：
+1. 按 ../style-system.md 选风格（或混搭）。
+2. 用映射表（style-system.md 第1节）把风格 palettes.md 色板填进 `--lb/--lc/...`。
+3. 圆角/边框/阴影/装饰按 layout-ui.md、decoration.md 该风格取值；日/夜双版用风格的 light/dark 两套色板分别填 `body.z-enabled` 与 `body.z-enabled.z-dark-mode`。
+4. 单点微调按 style-system.md 第5节覆盖协议。

@@ -12,7 +12,7 @@ description: 查看 tavern-mmd 全部指令说明（平台指令×任务指令�
 
 | 指令 | 平台 | 关键特点 |
 |---|---|---|
-| `/mmd` | 当前MMD（魅魔岛/sexyai.top） | 支持`<script>`，其余限制按旧版保守处理 |
+| `/mmd` | 当前MMD（魅魔岛/sexyai.top） | 支持`<script>`与ES6（推荐ES5写法）；正则≤30条、角色卡仅v2 |
 | `/oldmmd` | 旧版MMD | 禁`<script>`（用img onerror点火器）、ES5 only、正则手填≤30条 |
 | `/st` | 本地酒馆SillyTavern | 无限制：script/ES6+可用、正则json直接导入、世界书全字段 |
 
@@ -42,5 +42,7 @@ description: 查看 tavern-mmd 全部指令说明（平台指令×任务指令�
 | 角色卡 | chara_card_v3 json | chara_card_v2 json（MMD仅识别v2） |
 | 世界书 | 世界书 json | 同左 |
 | 正则 | 正则脚本 json | MMD导入json（首选）；手填清单 .md 备选 |
+
+做整张角色卡时，完成后会用弹窗问**输出形态**：内嵌正则的整卡 PNG / 内嵌正则的整卡 JSON / 分离式（角色卡 + 独立正则 json + 状态栏规则.md）。内嵌正则的整卡会把状态栏生成规则作为蓝灯条目放进卡内世界书。单独做美化/状态栏时，默认交付 = 正则 json + 状态栏规则.md。
 
 每个项目使用独立文件夹（main.md / plan.md / 资料 / 工作 / output 五件套），中断后新会话读 main.md+plan.md 可无缝续作。
