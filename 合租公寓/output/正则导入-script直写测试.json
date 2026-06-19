@@ -1,0 +1,19 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "测试：① <script> 直接写进开场白执不执行 ② 平台是否内置 ButtonListenModule。\n看出现哪些框：\n• D(必出) = 消息已渲染、正则注入基准\n• A 绿 = 直接写入的 <script> 会执行；没 A = 不执行\n• B 绿 = 直接写入的 img onerror 会执行；没 B = 直接 HTML 也被吃掉\n• E 绿 = 平台内置了 window.ButtonListenModule；E 橙 = 没内置\n\n<ctrlbase><div id='dsa'></div><script>(function(){try{var a=document.getElementById('dsa')||document.body;var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px;background:#e6f7e6;color:#1a7f1a';d.textContent='✓ A 直接写入开场白的 <script> 执行了';a.appendChild(d);}catch(err){}})();</script><img src='x' style='display:none' onerror=\"(function(e){var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px;background:#e6f7e6;color:#1a7f1a';d.textContent='✓ B 直接写入开场白的 img onerror 执行了';e.parentNode.insertBefore(d,e.nextSibling)})(this)\"><blmcheck>",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "基准D",
+      "findRegex": "<ctrlbase>",
+      "replaceString": "<img src='x' style='display:none' onerror=\"(function(e){var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px;background:#e6f7e6;color:#1a7f1a';d.textContent='✓ D 正则注入 img onerror（基准，必出）';e.parentNode.insertBefore(d,e.nextSibling)})(this)\">"
+    },
+    {
+      "id": -1,
+      "scriptName": "BLM检查E",
+      "findRegex": "<blmcheck>",
+      "replaceString": "<img src='x' style='display:none' onerror=\"(function(e){var has=(typeof window.ButtonListenModule!=='undefined');var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px';d.style.background=has?'#e6f7e6':'#fde2c8';d.style.color=has?'#1a7f1a':'#a05a00';d.textContent=has?'✓ E 平台已内置 window.ButtonListenModule':'△ E 平台没内置 ButtonListenModule（须自行加载）';e.parentNode.insertBefore(d,e.nextSibling)})(this)\">"
+    }
+  ]
+}

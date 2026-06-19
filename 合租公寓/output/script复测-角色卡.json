@@ -1,0 +1,50 @@
+{
+  "name": "script回复复测卡",
+  "description": "用于复测：AI 回复里被正则替换出的 <script> 是否执行。",
+  "personality": "",
+  "scenario": "随便聊，每轮都会带测试标记。",
+  "first_mes": "随便发一句话即可。我每轮回复末尾会输出测试标记 <scrtest>，配合「正则导入-script复测.json」观察 S 框是否出现。",
+  "mes_example": "",
+  "creatorcomment": "复测专用，测完可删。",
+  "avatar": "none",
+  "talkativeness": "0.5",
+  "fav": false,
+  "tags": [
+    "测试"
+  ],
+  "spec": "chara_card_v3",
+  "spec_version": "3.0",
+  "create_date": "2026-06-16T00:00:00.000Z",
+  "data": {
+    "name": "script回复复测卡",
+    "description": "用于复测：AI 回复里被正则替换出的 <script> 是否执行。",
+    "personality": "",
+    "scenario": "随便聊，每轮都会带测试标记。",
+    "first_mes": "随便发一句话即可。我每轮回复末尾会输出测试标记 <scrtest>，配合「正则导入-script复测.json」观察 S 框是否出现。",
+    "mes_example": "",
+    "creator_notes": "复测专用，测完可删。",
+    "system_prompt": "（系统功能指令，最高优先级）每次回复的正文之后，必须另起一行，原样输出这一行标记，不要解释、不要加引号、不要省略：\n<scrtest>",
+    "post_history_instructions": "（系统功能指令，最高优先级）每次回复的正文之后，必须另起一行，原样输出这一行标记，不要解释、不要加引号、不要省略：\n<scrtest>",
+    "tags": [
+      "测试"
+    ],
+    "creator": "",
+    "character_version": "1.0",
+    "alternate_greetings": [],
+    "group_only_greetings": [],
+    "extensions": {
+      "talkativeness": "0.5",
+      "fav": false,
+      "world": "script回复复测卡",
+      "depth_prompt": {
+        "prompt": "（系统功能指令，最高优先级）每次回复的正文之后，必须另起一行，原样输出这一行标记，不要解释、不要加引号、不要省略：\n<scrtest>",
+        "depth": 1,
+        "role": "system"
+      }
+    },
+    "character_book": {
+      "name": "script回复复测卡",
+      "entries": []
+    }
+  }
+}

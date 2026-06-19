@@ -1,0 +1,13 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "onclick 边界探针：三个按钮各点一下。\n绿=可用。对比哪种 onclick 写法被放行。\n<onclickprobe>",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "onclick边界",
+      "findRegex": "<onclickprobe>",
+      "replaceString": "<button type='button' style='margin:6px;padding:8px 14px;border-radius:6px;border:1px solid #c8794f;background:#fff8f0;color:#5a4636' onclick=\"this.nextElementSibling.textContent='✓ C1 单行 inline onclick 可用';this.nextElementSibling.style.color='#1a7f1a'\">C1 · 点我（单行 onclick）</button><div style='margin:6px;padding:8px;font-size:13px;color:#856404'>C1：待点击</div>\n<img src='x' style='display:none' onerror=\"window.__probeFn=window.__probeFn||function(el){el.textContent='✓ C2 window.__fn 模式可用';el.style.color='#1a7f1a'}\"><button type='button' style='margin:6px;padding:8px 14px;border-radius:6px;border:1px solid #c8794f;background:#fff8f0;color:#5a4636' onclick=\"window.__probeFn&&__probeFn(this.nextElementSibling)\">C2 · 点我（onclick 调 window.__fn）</button><div style='margin:6px;padding:8px;font-size:13px;color:#856404'>C2：待点击</div>\n<div><button type='button' id='c3btn' style='margin:6px;padding:8px 14px;border-radius:6px;border:1px solid #c8794f;background:#fff8f0;color:#5a4636'>C3 · 点我（JS赋值 onclick）</button><div id='c3out' style='margin:6px;padding:8px;font-size:13px;color:#856404'>C3：待点击</div><img src='x' style='display:none' onerror=\"(function(e){var b=e.parentNode.querySelector('#c3btn');var o=e.parentNode.querySelector('#c3out');if(b)b.onclick=function(){o.textContent='✓ C3 JS赋值 onclick 可用';o.style.color='#1a7f1a'}})(this)\"></div>"
+    }
+  ]
+}

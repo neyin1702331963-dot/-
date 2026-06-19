@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>内联探针预览</title><style>body{margin:0;background:#fbf3e9;font-family:system-ui,sans-serif}.wrap{max-width:560px;margin:0 auto;padding:16px}.note{background:#fff8f0;border:1px solid #e6c9a8;border-radius:10px;padding:10px 14px;color:#7a6450;font-size:13px;margin-bottom:8px}</style></head><body><div class="wrap"><div class="note"><b>内联事件探针 · 预览</b><br>浏览器里 A/B/D 应绿、C 按钮可点。MMD 实测里缺谁=该写法被平台限制。</div><div class="content left"><img src='x' style='display:none' onerror="(function(e){var d=document.createElement('div');d.style.margin='6px';d.style.padding='8px';d.style.borderRadius='6px';d.style.fontSize='13px';d.style.background='#e6f7e6';d.style.color='#1a7f1a';d.textContent='✓ A 单行 onerror 可用（基准）';e.parentNode.insertBefore(d,e.nextSibling)})(this)">
+<img src='x' style='display:none' onerror="
+(function(e){
+  var d=document.createElement('div');
+  d.style.margin='6px';d.style.padding='8px';d.style.borderRadius='6px';d.style.fontSize='13px';
+  d.style.background='#e6f7e6';d.style.color='#1a7f1a';
+  d.textContent='✓ B 多行 onerror 可用（属性里带换行）';
+  e.parentNode.insertBefore(d,e.nextSibling);
+})(this)
+">
+<button type='button' style='margin:6px;padding:8px 14px;border-radius:6px;border:1px solid #c8794f;background:#fff8f0;color:#5a4636' onclick="
+var d=this.nextElementSibling;
+try{
+  var x=1+2;
+  d.textContent='✓ C 多行 onclick(含try-catch) 可用 结果='+x;
+  d.style.color='#1a7f1a';
+}catch(err){
+  d.textContent='✗ C 报错 '+err;
+}
+">点我测多行 onclick</button><div style='margin:6px;padding:8px;font-size:13px;color:#856404'>C：点上面的按钮看结果（按钮若消失=被切除）</div>
+<img src='x' style='display:none' onerror='(function(e){var d=document.createElement("div");d.style.margin="6px";d.style.padding="8px";d.style.borderRadius="6px";d.style.fontSize="13px";d.style.background="#e6f7e6";d.style.color="#1a7f1a";d.textContent="✓ D 单引号属性内用双引号 可用";e.parentNode.insertBefore(d,e.nextSibling)})(this)'></div></div></body></html>

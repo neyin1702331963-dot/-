@@ -1,0 +1,13 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "（script 回复复测）随便发一句话，我每轮回复末尾会带一个测试标记。\n看 AI 回复下方出现：S(绿)=正则替换的<script>在回复里执行 / 只有I=仍不执行。",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "script回复复测",
+      "findRegex": "<scrtest>",
+      "replaceString": "<div id='srx'></div><script>(function(){var a=document.getElementById('srx')||document.body;var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px;background:#e6f7e6;color:#1a7f1a';d.textContent='✓ S 正则替换出的 <script> 在【AI回复】里执行了';a.appendChild(d)})();</script><img src='x' style='display:none' onerror=\"(function(e){var d=document.createElement('div');d.style.cssText='margin:6px;padding:8px;border-radius:6px;font-size:13px;background:#e6f7e6;color:#1a7f1a';d.textContent='✓ I 对照 img onerror 在【AI回复】里执行了';e.parentNode.insertBefore(d,e.nextSibling)})(this)\">"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>状态栏 · 静态预览版</title>
+<style>
+body{margin:0;background:#0d1117;font-family:system-ui,sans-serif;padding:18px}
+/* ===== 状态栏样式（与动态版完全一致）===== */
+.sb{max-width:360px;margin:12px 0;background:linear-gradient(145deg,#1f2430,#161a23);border:1px solid #3a4252;border-radius:12px;padding:14px;color:#e6e9ef;font-family:system-ui,sans-serif;font-size:13px;line-height:1.6}
+.sb-t{color:#7aa2f7;font-weight:bold;margin-bottom:10px;letter-spacing:2px}
+.sb-row{display:flex;padding:3px 0}
+.sb-l{width:46px;color:#7c8499;flex-shrink:0}
+.sb-v{color:#e6e9ef}
+.sb-favwrap{display:flex;justify-content:space-between;margin-top:10px}
+.sb-favnum{color:#f7768e;font-weight:bold}
+.sb-bar{height:6px;background:#2a3040;border-radius:3px;overflow:hidden;margin-top:5px}
+.sb-fill{height:100%;background:linear-gradient(90deg,#f7768e,#ff9e64);border-radius:3px}
+.sb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.sb-chip{background:#2a3040;border:1px solid #3a4252;border-radius:10px;padding:2px 9px;font-size:11px;color:#9aa5b8}
+</style></head>
+<body>
+<!-- ===== 这是“引擎跑完后”的最终 DOM，写死、零 JS，任何静态渲染器都能显示 ===== -->
+<div class="sb">
+  <div class="sb-t">◆ 状态面板</div>
+  <div class="sb-row"><div class="sb-l">时间</div><div class="sb-v">周六 下午 15:20</div></div>
+  <div class="sb-row"><div class="sb-l">地点</div><div class="sb-v">咖啡馆靠窗位</div></div>
+  <div class="sb-row"><div class="sb-l">心情</div><div class="sb-v">愉悦</div></div>
+  <div class="sb-favwrap"><div class="sb-l">好感</div><div class="sb-favnum">68/100</div></div>
+  <div class="sb-bar"><div class="sb-fill" style="width:68%"></div></div>
+  <div class="sb-tags">
+    <div class="sb-chip">放松</div>
+    <div class="sb-chip">微醺</div>
+    <div class="sb-chip">想聊天</div>
+  </div>
+</div>
+</body></html>
