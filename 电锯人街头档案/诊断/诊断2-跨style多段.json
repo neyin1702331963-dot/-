@@ -1,0 +1,19 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "<mbseg1><mbseg2>",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "诊断2-跨style第1段",
+      "findRegex": "<mbseg1>",
+      "replaceString": "<div class=\"cs-test-box\"><style>.tbox{background:#0a0;color:#fff;padding:14px;font-size:18px;border-radius:8px;margin:6px 0}"
+    },
+    {
+      "id": -1,
+      "scriptName": "诊断2-跨style第2段",
+      "findRegex": "<mbseg2>",
+      "replaceString": ".tbox2{background:#c00;color:#fff;padding:14px;font-size:18px;border-radius:8px;margin:6px 0}</style><div class=\"tbox\">绿框：跨 style 分块的前半段</div><div class=\"tbox2\">红框：跨 style 分块的后半段</div></div>"
+    }
+  ]
+}
