@@ -1,0 +1,13 @@
+{
+  "pageDepth": 2,
+  "statusbar": "",
+  "beginning": "<div style=\"background:#0a0;color:#fff;padding:14px;font-size:18px;border-radius:8px;margin:6px 0\">A：这是开场白里直接写的 HTML（不经正则）</div><mbseg1>",
+  "regex_scripts": [
+    {
+      "id": -1,
+      "scriptName": "诊断-正则是否作用于开场白",
+      "findRegex": "<mbseg1>",
+      "replaceString": "<div style=\"background:#c00;color:#fff;padding:14px;font-size:18px;border-radius:8px;margin:6px 0\">B：这是正则把 &lt;mbseg1&gt; 替换出来的 HTML</div>"
+    }
+  ]
+}
