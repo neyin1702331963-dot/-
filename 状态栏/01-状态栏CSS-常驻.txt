@@ -1,0 +1,73 @@
+正则表达式：《状1》
+
+替换内容：<style>
+.gal-status-shell {
+  --gal-status-asset-compass: none;
+  --gal-status-asset-moon: none;
+  --gal-status-asset-crystal: none;
+  --gal-status-asset-flower: none;
+  --gal-status-asset-npc-frame: none;
+  --gal-status-asset-corner: none;
+  --gal-status-asset-star-divider: none;
+  --gal-status-asset-private-tag: none;
+  --gal-status-asset-action-icon: none;
+  --gal-bg:#060a16;--gal-bg-2:#0d1022;--gal-panel:#0b1224;--gal-line:rgba(211,226,255,.22);
+  --gal-ink:#f6f3fb;--gal-muted:#9ca9bd;--gal-gold:#f0dba2;--gal-violet:#d2a0f3;
+  --gal-cyan:#b5eefe;--gal-glow:rgba(169,237,255,.38);
+  position:relative;isolation:isolate;box-sizing:border-box;width:100%;max-width:800px;margin:10px auto;
+  overflow:hidden;border:1px solid rgba(233,229,255,.3);border-radius:8px;color:var(--gal-ink);
+  background:linear-gradient(145deg,#070b17,#121025 56%,#080812);box-shadow:0 15px 42px rgba(0,0,0,.46);
+  font-family:"Gal Academy","Gal Shirayuki","LXGW WenKai","霞鹜文楷","Noto Serif SC","Microsoft YaHei",serif;
+}
+.gal-status-shell *{box-sizing:border-box;letter-spacing:0}.gal-status-raw{display:none!important}
+.gal-status-shell::before{content:"";position:absolute;inset:8px;z-index:0;border:1px solid rgba(234,230,255,.12);border-radius:4px;pointer-events:none}
+.gal-status-topbar{position:relative;z-index:2;display:grid;grid-template-columns:.9fr 1.55fr .55fr;min-height:58px;border-bottom:1px solid var(--gal-line);background:rgba(6,10,23,.86)}
+.gal-status-topcell{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:9px 18px;border-left:1px solid var(--gal-line)}
+.gal-status-topcell:first-child{border-left:0}.gal-status-topcell small{color:var(--gal-cyan);font:800 8px/1 Arial,sans-serif;letter-spacing:1.5px}
+.gal-status-topcell b{margin-top:6px;overflow:hidden;color:var(--gal-ink);font-size:12px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.gal-status-topcell:last-child b{color:var(--gal-gold);font:800 18px/1 Arial,sans-serif;letter-spacing:1px}
+.gal-status-flow{position:relative;z-index:1;padding:10px 12px 12px}
+.gal-status-section{position:relative;margin-bottom:10px;padding:12px;border:1px solid rgba(221,216,255,.17);background:linear-gradient(145deg,rgba(10,17,31,.92),rgba(14,9,26,.9))}
+.gal-status-section:last-child{margin-bottom:0}.gal-status-section-head{min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 2px 9px;border-bottom:1px solid var(--gal-line)}
+.gal-status-heading{position:relative;min-height:36px;display:flex;align-items:center;gap:9px;padding-left:17px;flex:0 0 auto}
+.gal-status-heading::before{content:"";position:absolute;left:0;top:50%;width:3px;height:40px;transform:translateY(-50%);background:linear-gradient(#fff,var(--gal-cyan) 52%,transparent);box-shadow:0 0 8px rgba(255,255,255,.46),0 0 17px var(--gal-glow)}
+.gal-status-index{color:#d8f8ff;text-shadow:0 0 8px rgba(216,248,255,.85),0 0 15px var(--gal-glow);font:900 9px/1 Arial,sans-serif}
+.gal-status-heading h2{margin:0;font-size:17px;letter-spacing:1px;text-shadow:0 0 8px rgba(255,255,255,.35)}
+.gal-status-event-title{margin:11px 0 5px;font-size:19px;letter-spacing:1px;text-shadow:0 0 10px rgba(255,255,255,.38)}
+.gal-status-event-copy{margin:0 0 9px;color:var(--gal-muted);font-size:10px;line-height:1.65}
+.gal-status-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 8px}
+.gal-status-field{min-width:0;min-height:64px;position:relative;padding:9px 10px;border-left:2px solid rgba(181,238,254,.34);border-bottom:1px solid rgba(210,204,235,.17);background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.008))}
+.gal-status-field b{display:block;margin-bottom:6px;color:#83b7ca;font-size:9px}.gal-status-field span{display:block;color:#f4f2f8;font-size:11px;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+.gal-status-scene-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.gal-status-scene{min-width:0;padding:9px 10px;border-left:2px solid rgba(181,238,254,.3);border-bottom:1px solid rgba(210,204,235,.17)}
+.gal-status-scene>b{display:block;margin-bottom:5px;color:#83b7ca;font-size:9px}.gal-status-scene-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px}
+.gal-status-scene-option{position:relative;min-width:0;min-height:28px;padding:5px 6px 5px 14px;overflow:hidden;border:0;border-bottom:1px solid rgba(181,238,254,.2);color:#b9c5d6;background:transparent;font:500 10px/1.4 inherit;text-align:left;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+.gal-status-scene-option::before{content:"";position:absolute;left:3px;top:8px;bottom:8px;width:2px;background:rgba(181,238,254,.38)}.gal-status-scene-option:hover{color:#fff;border-bottom-color:var(--gal-cyan);background:rgba(181,238,254,.045)}
+.gal-status-npc .gal-status-section-head{align-items:flex-start}.gal-status-npc-carousel{min-width:0;flex:1;display:grid;grid-template-columns:28px minmax(0,1fr) 28px;gap:5px;align-items:center}
+.gal-status-arrow{width:28px;height:31px;padding:0;border:1px solid rgba(220,215,255,.26);color:var(--gal-cyan);background:rgba(8,8,22,.55);font:700 18px/1 Arial,sans-serif;cursor:pointer;clip-path:polygon(50% 0,88% 17%,100% 50%,84% 86%,50% 100%,16% 84%,0 50%,14% 17%)}
+.gal-status-arrow:hover{filter:brightness(1.2);box-shadow:0 0 10px var(--gal-glow)}.gal-status-arrow[hidden]{display:block;visibility:hidden}
+.gal-status-npc-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.gal-status-npc-tab{min-width:0;min-height:31px;padding:5px 8px;overflow:hidden;border:1px solid rgba(221,216,255,.2);color:#aab4c4;background:rgba(9,10,24,.58);font:10px/1.3 inherit;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+.gal-status-npc-tab.is-active{color:#fff;border-color:var(--gal-cyan);background:rgba(169,237,255,.13);box-shadow:inset 0 -2px var(--gal-cyan),0 0 9px var(--gal-glow)}
+.gal-status-npc-progress{grid-column:2;display:block;margin-top:1px;color:#77859b;font:700 8px/1.2 Arial,sans-serif;text-align:center}
+.gal-status-npc-body{display:grid;grid-template-columns:225px minmax(0,1fr);gap:9px;margin-top:10px}.gal-status-npc-portrait{position:relative;height:auto;aspect-ratio:4/5;align-self:start;overflow:hidden;border:1px solid rgba(229,224,255,.38);background:#101426;clip-path:polygon(12px 0,100% 0,100% calc(100% - 17px),calc(100% - 17px) 100%,0 100%,0 12px)}
+.gal-status-npc-portrait img{position:absolute;inset:0;display:none;width:100%;height:100%;object-fit:cover}.gal-status-npc-portrait.has-image img{display:block}.gal-status-npc-portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,16,32,.94),transparent 40%);pointer-events:none}
+.gal-status-npc-name{position:absolute;z-index:2;left:13px;right:13px;bottom:13px;font-size:19px;font-weight:700;letter-spacing:1px;text-shadow:0 0 10px rgba(255,255,255,.44)}
+.gal-status-npc-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#69768d;font-size:11px;white-space:nowrap}.gal-status-npc-portrait.has-image .gal-status-npc-empty{display:none}
+.gal-status-npc-content{min-width:0}.gal-status-npc-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.gal-status-private{margin-top:8px;padding:9px 10px;border:1px solid rgba(210,160,243,.25);border-left:2px solid var(--gal-violet);background:linear-gradient(145deg,rgba(25,10,35,.72),rgba(8,8,20,.82))}
+.gal-status-private-title{padding-bottom:7px;border-bottom:1px solid rgba(210,160,243,.18);font-size:10px;font-weight:700}.gal-status-secret-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:7px;margin-top:7px}
+.gal-status-secret{position:relative;min-height:66px;padding:8px 9px;overflow:hidden;border:0;border-bottom:1px solid rgba(210,160,243,.18);color:inherit;background:rgba(210,160,243,.035);font-family:inherit;text-align:left;cursor:pointer}
+.gal-status-secret b{display:block;margin-bottom:5px;color:var(--gal-violet);font-size:9px}.gal-status-secret span{display:block;color:#ddd7e5;font-size:10px;line-height:1.55;opacity:.28;filter:blur(6px);user-select:none}.gal-status-secret::after{content:"点击查看";position:absolute;left:9px;bottom:9px;color:#a989ba;font-size:9px}
+.gal-status-secret.is-revealed span{opacity:1;filter:none;user-select:text}.gal-status-secret.is-revealed::after{display:none}
+.gal-status-user-head{position:relative}.gal-status-user-badges{min-width:0;display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap}.gal-status-badge{min-width:105px;min-height:34px;display:flex;align-items:center;justify-content:center;padding:5px 9px;border:1px solid rgba(220,215,255,.27);color:#f5f2fa;background:linear-gradient(90deg,rgba(181,238,254,.1),rgba(210,160,243,.07));font-size:10px;font-weight:700;clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+.gal-status-user-body{display:grid;grid-template-columns:205px minmax(0,1fr);gap:9px;margin-top:10px}.gal-status-user-portrait{position:relative;height:335px;overflow:hidden;border:1px solid rgba(229,224,255,.38);background:linear-gradient(145deg,#0d1627,#110a1d);cursor:pointer;clip-path:polygon(12px 0,100% 0,100% calc(100% - 17px),calc(100% - 17px) 100%,0 100%,0 12px)}
+.gal-status-user-portrait input{position:absolute;width:1px;height:1px;opacity:0}.gal-status-user-portrait img{position:absolute;inset:0;display:none;width:100%;height:100%;object-fit:cover}.gal-status-user-portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,16,32,.9),rgba(8,16,32,.12));pointer-events:none}.gal-status-user-prompt{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);padding:6px 11px;border:1px solid rgba(181,238,254,.46);color:#eefbff;background:rgba(8,16,32,.74);font-size:10px;white-space:nowrap}
+.gal-status-user-portrait.has-image img{display:block}.gal-status-user-portrait.has-image::after,.gal-status-user-portrait.has-image .gal-status-user-prompt{display:none}.gal-status-user-content{min-width:0}.gal-status-user-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.gal-status-actions{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(3,36px);gap:5px;margin-top:8px}.gal-status-action{min-width:0;padding:5px 11px;border:1px solid rgba(235,226,255,.48);color:#fff;background:linear-gradient(90deg,#101126,#385e70 50%,#171226);font:700 10px/1.4 inherit;cursor:pointer;clip-path:polygon(12px 0,calc(50% - 24px) 0,50% 6px,calc(50% + 24px) 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);box-shadow:0 0 12px rgba(169,237,255,.18)}
+.gal-status-action:hover{color:var(--gal-gold);border-color:var(--gal-gold)}.gal-status-action:disabled{color:#788399;background:#111728;cursor:default;box-shadow:none}.gal-status-empty{padding:10px;color:#77839f;font-size:10px}
+.gal-status-npc-body[hidden]{display:none!important}
+.gal-status-user-clear{position:absolute;z-index:3;right:7px;top:7px;display:none;width:26px;height:26px;padding:0;border:1px solid rgba(181,238,254,.45);color:#eefbff;background:rgba(8,16,32,.72);font:700 15px/1 Arial,sans-serif;cursor:pointer}
+.gal-status-user-clear:hover{color:var(--gal-gold);border-color:var(--gal-gold)}
+.gal-status-user-portrait.has-image .gal-status-user-clear{display:block}
+.gal-status-npc-tab.is-selected,.gal-status-scene-option.is-selected,.gal-status-action.is-selected{color:var(--gal-gold);border-color:var(--gal-gold)}
+@media(max-width:650px){.gal-status-topcell{padding:8px 10px}.gal-status-section-head{flex-wrap:wrap}.gal-status-npc-carousel{flex:1 1 100%;order:2;display:block}.gal-status-arrow{display:none!important}.gal-status-npc-strip{display:flex;gap:5px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.gal-status-npc-strip::-webkit-scrollbar{display:none}.gal-status-npc-tab{flex:0 0 calc((100% - 5px)/2);scroll-snap-align:start}.gal-status-npc-progress{margin-top:4px}.gal-status-npc-body,.gal-status-user-body{grid-template-columns:1fr}.gal-status-user-portrait{height:300px}.gal-status-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gal-status-npc-fields,.gal-status-user-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.gal-status-user-head{flex-wrap:nowrap}.gal-status-user-badges{flex:1 1 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;justify-content:stretch}.gal-status-badge{display:block;height:30px;min-width:0;min-height:30px;padding:0 3px;overflow:hidden;font-size:8px;line-height:30px;text-align:center;text-overflow:ellipsis;white-space:nowrap}.gal-status-npc-body[hidden]{display:none!important}}
+@media(max-width:430px){.gal-status-shell{border-radius:6px}.gal-status-topbar{grid-template-columns:.9fr 1.35fr .55fr}.gal-status-topcell{padding:7px}.gal-status-topcell b{font-size:10px}.gal-status-flow{padding:7px}.gal-status-section{padding:9px}.gal-status-npc-body,.gal-status-user-body{grid-template-columns:1fr}.gal-status-user-portrait{height:280px}.gal-status-field-grid,.gal-status-scene-grid,.gal-status-secret-grid{grid-template-columns:1fr}.gal-status-npc-fields,.gal-status-user-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.gal-status-scene-list{grid-template-columns:1fr}.gal-status-user-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.gal-status-badge{min-width:0}.gal-status-npc-body[hidden]{display:none!important}}
+</style>
