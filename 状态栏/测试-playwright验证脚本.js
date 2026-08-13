@@ -13,11 +13,15 @@ function body(file) {
 }
 const CSS = body('01-状态栏CSS-常驻.txt').trim();
 const HTML = body('02-状态栏HTML+JS-常驻.txt').replace(/\n$/, '');
-const PORTRAIT = /立绘=[ \t]*(?!https?:)([^_|;\s]+)_([^|;\r\n]+?)[ \t]*(?=[|;\r\n]|$)/g;
+// 与平台一致：/规则/ 形式的首尾斜杠剥掉后编译；纯文字则字面匹配
+const rxLine = fs.readFileSync(path.join(DIR, '02A-NPC立绘抓取正则.txt'), 'utf8').match(/正则表达式：(.+)/)[1].trim();
+const m0 = rxLine.match(/^\/(.*)\/([gimsuy]*)$/);
+if (!m0) throw new Error('02A 缺少 / / 分隔符，平台会当纯文字字面匹配：' + rxLine);
+const PORTRAIT = new RegExp(m0[1], m0[2].includes('g') ? m0[2] : m0[2] + 'g');
 
 function build(statusText) {
   return statusText
-    .replace(new RegExp(PORTRAIT.source, 'g'), '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png')
+    .replace(PORTRAIT, '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png')
     .replace('<status>', HTML)
     .replace('</status>', '</div></div>');
 }
@@ -185,7 +189,7 @@ function check(name, cond, extra = '') {
   await page.setInputFiles('[data-gal-user-upload]', { name: 'u.png', mimeType: 'image/png', buffer: png });
   await page.waitForTimeout(600);
   check('上传后本回合显示立绘', (await probe(page)).userHasImage);
-  check('已写入 localStorage', await page.evaluate(() => !!localStorage.getItem('galStatusUserPortrait')));
+  check('已写入 localStorage', await page.evaluate(() => !!localStorage.getItem('CUSTOM_galStatusUser_v1')));
   await page.evaluate(h => { document.getElementById('chat').insertAdjacentHTML('beforeend', h); }, build(badStatus));
   await page.waitForTimeout(800);
   const inherited = await page.evaluate(() => {
@@ -204,7 +208,7 @@ function check(name, cond, extra = '') {
   await page.click('[data-gal-user-clear]');
   await page.waitForTimeout(300);
   check('清除按钮生效', !(await probe(page)).userHasImage);
-  check('清除后 localStorage 也清了', await page.evaluate(() => !localStorage.getItem('galStatusUserPortrait')));
+  check('清除后 localStorage 也清了', await page.evaluate(() => !localStorage.getItem('CUSTOM_galStatusUser_v1')));
 
   // ---- 7. tolerance ----
   console.log('\n[7] 容错');
@@ -232,9 +236,15 @@ function check(name, cond, extra = '') {
   r = await probe(page);
   check('漏写 ;; 时靠换行兜底', r.progress === '1 / 5' && r.npcField8 === '询问星盘异常', r.progress + ' / ' + r.npcField8);
 
+  // ---- 7b. 平台会删掉的标签不能出现在替换内容里 ----
+  const banned = HTML.match(/<\/?(section|header|footer|nav|iframe|canvas|audio|form)\b/g) || [];
+  check('未使用 AI 回复里会被平台删除的标签', banned.length === 0, banned.join(' '));
+  check('替换内容里无 $ 捕获引用冲突', !/\$[A-Za-z0-9_{]/.test(HTML), (HTML.match(/\$[A-Za-z0-9_{]/g) || []).join(' '));
+  check('localStorage key 走 CUSTOM_ 白名单前缀', /var KEY='CUSTOM_/.test(HTML), (HTML.match(/var KEY='[^']+'/) || [])[0]);
+
   // ---- 8. regex idempotency ----
-  const once = okStatus.replace(new RegExp(PORTRAIT.source, 'g'), '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png');
-  const twice = once.replace(new RegExp(PORTRAIT.source, 'g'), '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png');
+  const once = okStatus.replace(PORTRAIT, '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png');
+  const twice = once.replace(PORTRAIT, '立绘=https://meimoaiimg.com/user/1462820/$1-$2.png');
   check('正则重复执行不二次转换', once === twice, twice.match(/立绘=[^|]*/)[0]);
 
   await ctx.newPage();
